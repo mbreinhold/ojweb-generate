@@ -69,8 +69,9 @@ endef
 $(BUILD)/proj.css: $(HOME)/proj.css
 	$(copy-file)
 
+ifndef NOCSS
 all:: $(BUILD)/proj.css
-
+endif
 
 # HTML content
 
