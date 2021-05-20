@@ -66,11 +66,11 @@ endef
 
 # CSS
 
-$(BUILD)/proj.css: $(HOME)/proj.css
+$(BUILD)/project.css: $(HOME)/project.css
 	$(copy-file)
 
 ifndef NOCSS
-all:: $(BUILD)/proj.css
+all:: $(BUILD)/project.css
 endif
 
 # HTML content
