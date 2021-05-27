@@ -36,7 +36,7 @@ XSLT_PARAMS = --stringparam year "$(DATE)"
 XSLT = xsltproc --nonet $(XSLT_PARAMS)
 PANDOC = pandoc -f gfm-auto_identifiers+grid_tables+smart -t html \
                 --section-divs --no-highlight
-
+CSS = page-serif.css
 PAGE_XSL = $(HOME)/page.xsl
 
 
@@ -66,11 +66,11 @@ endef
 
 # CSS
 
-$(BUILD)/project.css: $(HOME)/project.css
+$(BUILD)/$(CSS): $(HOME)/$(CSS)
 	$(copy-file)
 
 ifndef NOCSS
-all:: $(BUILD)/project.css
+all:: $(BUILD)/$(CSS)
 endif
 
 # HTML content

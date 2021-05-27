@@ -78,7 +78,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
       <title><s:apply-templates select="h:body/h:section/h:h1/text()"/></title>
       <link rel="shortcut icon" href="/images/nanoduke.ico"/>
-      <link rel="stylesheet" type="text/css" href="/project.css"/>
+      <link rel="stylesheet" type="text/css" href="/page-serif.css"/>
     </head>
     <body>
       <article>
