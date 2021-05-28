@@ -67,11 +67,14 @@ endef
 # CSS
 
 $(BUILD)/$(CSS): $(HOME)/$(CSS)
-	$(copy-file)
+	@mkdir -p $(dir $@)
+	sed -e '1,24d' $< >$@
+	@touch $(UPDATED)
 
 ifndef NOCSS
 all:: $(BUILD)/$(CSS)
 endif
+
 
 # HTML content
 
