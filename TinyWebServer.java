@@ -66,7 +66,9 @@ public class TinyWebServer
         var ext = "html";
         var n = p.getFileName().toString();
         var i = n.lastIndexOf(".");
-        if (i >= 0)
+        if (i == 0)
+            return "text/plain";
+        if (i > 0)
             ext = n.substring(i + 1);
         return switch (ext) {
             case "css" -> "text/css" + UTF8;
