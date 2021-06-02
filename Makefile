@@ -27,15 +27,15 @@ HOME = $(dir $(firstword $(MAKEFILE_LIST)))
 
 SHELL = /bin/bash		# So that we can use set -o pipefail
 
-DATE = $(shell date +%Y)
+TS = $(shell date -Im)
+YEAR = $(shell date +%Y)
 BUILD ?= build
 UPDATED = $(BUILD)/.updated
 
-TIDY = tidy -q -utf8 -asxhtml -n --doctype omit --tidy-mark n -w 80
-XSLT_PARAMS = --stringparam year "$(DATE)"
+TIDY = tidy -q -utf8 -asxhtml -n --doctype omit --tidy-mark n -w 0
+XSLT_PARAMS = --stringparam year "$(YEAR)"
 XSLT = xsltproc --nonet $(XSLT_PARAMS)
-PANDOC = pandoc -f gfm-auto_identifiers+grid_tables+smart -t html \
-                --section-divs --no-highlight
+PANDOC = pandoc -t html --section-divs --no-highlight
 CSS = page-serif.css
 PAGE_XSL = $(HOME)/page.xsl
 
@@ -49,9 +49,10 @@ $(BUILD)/%: %.md
 	@mkdir -p $(dir $@)
 	(set -o pipefail; \
 	 (echo '<html><head><title/></head><body>'; $(PANDOC) $< -o -; echo '</body></html>') \
-	  | tee /tmp/h1 | $(TIDY) | $(XSLT) $(PAGE_XSL) - \
-	  | sed -re 's!<br></br>!<br>!' >$@) || (rm -f $@; exit 1)
-	@touch $(UPDATED)
+	  | $(TIDY) | $(XSLT) $(PAGE_XSL) - \
+	  | sed -re 's!<br></br>!<br>!' -e 's/ – /\&#x200A;—\&#x200A;/g' >$@) \
+	|| (rm -f $@; exit 1)
+	echo '$(TS)' >$(UPDATED)
 
 all:: $(MD_DST)
 
@@ -60,7 +61,7 @@ all:: $(MD_DST)
 define copy-file
 	@mkdir -p $(dir $@)
 	cp $< $@
-	@touch $(UPDATED)
+	@echo '$(TS)' >$(UPDATED)
 endef
 
 
@@ -69,7 +70,7 @@ endef
 $(BUILD)/$(CSS): $(HOME)/$(CSS)
 	@mkdir -p $(dir $@)
 	sed -e '1,24d' $< >$@
-	@touch $(UPDATED)
+	@echo '$(TS)' >$(UPDATED)
 
 ifndef NOCSS
 all:: $(BUILD)/$(CSS)

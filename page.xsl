@@ -28,6 +28,8 @@
 <!DOCTYPE s:stylesheet [
   <!ENTITY copy "&#xa9;">
   <!ENTITY dot "&#xb7;">
+  <!ENTITY quad "&#x2001;">
+  <!ENTITY qquad "&quad;&quad;">
 ]>
 
 <s:stylesheet xmlns:s="http://www.w3.org/1999/XSL/Transform"
@@ -47,36 +49,33 @@
   </s:copy>
 </s:template>
 
-<s:template match="h:p[name(*[1])='strong' or name(*[1])='em']">
+<!-- Serried H4 headers -->
+
+<s:template match="h:section/h:h4[following-sibling::*[1][name()='p']
+                                  and not(../preceding-sibling::*[1][name()='h1'])]">
   <p class="br">
-    <s:apply-templates/>
+    <b><s:copy-of select="*|text()"/></b>
+    <s:text>&qquad;</s:text>
+    <s:copy-of select="following-sibling::*[1][name()='p']/node()"/>
   </p>
 </s:template>
 
-<s:template name="id">
-  <s:value-of select="translate(normalize-space(string()),
-                                ' .()&amp;,',
-                                '--')"/>
-</s:template>
+<s:template match="h:p[preceding-sibling::*[1][name()='h4']
+                       and not(../preceding-sibling::*[1][name()='h1'])]"/>
 
-<s:template mode="id-attr" match="*">
-  <s:attribute name="id">
-    <s:call-template name="id"/>
-  </s:attribute>
-</s:template>
-
-<s:template match="h:section">
-  <section>
-    <s:apply-templates mode="id-attr" select="h:h1|h:h2|h:h3"/>
-    <s:apply-templates select="*"/>
-  </section>
-</s:template>
+<!-- Main -->
 
 <s:template match="/h:html">
   <html>
     <head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
-      <title><s:apply-templates select="h:body/h:section/h:h1/text()"/></title>
+      <title>
+        <s:value-of select="h:body/h:section[1]/h:h1[1]"/>
+        <s:if test="h:body/h:section/h:section[@class='level2 subtitle']">
+          <s:text>: </s:text>
+          <s:value-of select="h:body/h:section/h:section[@class='level2 subtitle']/h:h2"/>
+        </s:if>
+      </title>
       <link rel="shortcut icon" href="/images/nanoduke.ico"/>
       <link rel="stylesheet" type="text/css" href="/page-serif.css"/>
     </head>
@@ -86,6 +85,7 @@
         <footer class="legal">
           <div>&copy; <s:value-of select="$year"/> Oracle Corporation and/or its affiliates</div>
           <div><a href="/tou">Terms of Use</a>
+          &dot; License: <a href="https://openjdk.java.net/legal/gplv2+ce.html">GPLv2</a>
           &dot; <a href="https://www.oracle.com/legal/privacy/index.html">Privacy</a>
           &dot; <a href="https://www.oracle.com/legal/trademarks.html">Trademarks</a></div>
         </footer>

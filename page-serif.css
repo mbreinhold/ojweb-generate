@@ -77,7 +77,7 @@ FOOTER.legal A { color: #888; }
 H1, H2, H3, H4 { text-align: left; }
 
 BODY { font-family: "DejaVu Serif", "Bitstream Vera Serif", Georgia, serif; }
-CODE, TT, .jref, DIV.spec .open, TABLE.profiles {
+CODE, TT, .jref, DIV.spec .open, TABLE.profiles, FOOTER.legal {
   font-family: "DejaVu Sans", "Bitstream Vera Sans",
                "Verdana", Helvetica, sans-serif; }
 PRE, PRE > CODE { font-family: "DejaVu Sans Mono", "Bitstream Vera Sans Mono",
@@ -91,19 +91,23 @@ P { text-indent: clamp(1rem, 6.7vw, 2rem); }
 P:first-child, UL + P, OL + P, BLOCKQUOTE + P, TABLE + P, P.subsection,
   P.br, P.intro, DIV.toc + P, DIV.image + P { text-indent: 0; }
 P.br { margin-top: .5rem; }
+P.author { margin-bottom: 1rem; }
 P.intro { margin-top: 32px; } /* grid tweak */
-LI { margin-right: clamp(.5rem, 3.35vw, 1rem); }
+/*LI { margin-right: clamp(.5rem, 3.35vw, 1rem); }*/
 LI LI { margin-right: 0; text-align: left; }
 
 UL, OL { margin: .5rem 0; padding-left: clamp(1rem, 6.7vw, 2rem); }
-LI UL, LI OL { margin-top: 0; }
+LI UL, LI OL { margin: 0 0; }
 LI P:last-child { margin-bottom: .5rem; }
 /*LI P + LI P { margin-top: 0; }*/
 
-PRE { padding: 0; margin: .5rem 0 .5rem clamp(1rem, 6.7vw, 2rem); width: 700px; }
-BLOCKQUOTE, TABLE { margin: .5rem 1rem .5rem clamp(1rem, 6.7vw, 2rem); }
+PRE, TABLE { padding: 0; margin: .5rem 0 .5rem clamp(1rem, 6.7vw, 2rem); width: 700px; }
+BLOCKQUOTE { margin: .5rem 1rem .5rem clamp(1rem, 6.7vw, 2rem); }
 LI BLOCKQUOTE { margin-left: 0; margin-right: 0; }
 UL LI { list-style-type: square; }
+
+DL { margin-top: .5rem; }
+DD { margin-left: clamp(1rem, 6.7vw, 2rem); }
 
 H1 + P, H2 + P, H3 + P, H4 + P, PRE + P, BLOCKQUOTE + P { text-indent: 0; }
 H1, H2, H3, H4 { font-weight: bold; }
@@ -115,15 +119,18 @@ H1:first-child + H1 { margin-top: 1px; }
 
 /* BODY { background: url("grid-12.png") repeat 0 12px; } /**/
 
-H1:first-child { font-size: 20px; line-height: 2rem; font-weight: bold; }
-H2 { font-size: 17px; }
+H1, H1 + SECTION.subtitle H2:first-child { font-size: 20px; line-height: 2rem; }
+H2 { font-size: 18px; }
 
 H1, H2 {
   font-weight: bold;
   margin-top: 1rem; margin-bottom: .5rem; }
 
 H1 + SECTION H2:first-child { margin-top: 0; }
-H1 + SECTION H4:first-child { margin: -.5rem 0 1rem; } /* Author & date */
+
+H1 + SECTION.subtitle H2:first-child { margin-top: -1.5rem; font-style: italic; } /* Subtitle */
+H1 + SECTION.author H4:first-child, H2 + SECTION.author H4:first-child
+  { margin: -.5rem 0 1rem; } /* Author & date */
 
 H3, H4 { margin-top: .5rem; margin-bottom: .5rem; }
 H3 { font-style: italic; }
