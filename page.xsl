@@ -88,6 +88,7 @@
           &dot; License: <a href="https://openjdk.java.net/legal/gplv2+ce.html">GPLv2</a>
           &dot; <a href="https://www.oracle.com/legal/privacy/index.html">Privacy</a>
           &dot; <a href="https://www.oracle.com/legal/trademarks.html">Trademarks</a></div>
+          <div> <s:value-of select="$hash"/> &dot; <s:value-of select="$time"/></div>
         </footer>
       </article>
     </body>

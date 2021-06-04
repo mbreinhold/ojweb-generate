@@ -5,10 +5,14 @@ DST=$2
 
 YEAR=$(date +%Y)
 
-TIDY='tidy -q -utf8 -asxhtml -n --doctype omit --tidy-mark n -w 0'
+GIT=$(TZ=UTC git log -1 --abbrev=12 \
+             --date=format-local:'%Y/%m/%d %02H:%02M %Z' \
+             --format='%cd@%h' $SRC)
+if ! [ "$GIT" ]; then GIT='unknown@unknown'; fi
+TIME=$(echo "$GIT" | cut -d@ -f1)
+HASH=$(echo "$GIT" | cut -d@ -f2)
+
 PAGE_XSL=$HOME/page.xsl
-XSLT_PARAMS="--stringparam year $YEAR"
-XSLT="xsltproc --nonet $XSLT_PARAMS"
 PANDOC='pandoc -t html --section-divs --no-highlight'
 
 dopandoc() {
@@ -17,7 +21,21 @@ dopandoc() {
   echo '</body></html>'
 }
 
+dotidy() {
+  tidy -q -utf8 -asxhtml -n --doctype omit --tidy-mark n -w 0
+}
+
+doxslt() {
+  xsltproc --nonet \
+    --stringparam year $YEAR \
+    --stringparam hash $HASH \
+    --stringparam time "$TIME" \
+    $PAGE_XSL -
+}
+
+cleanup() {
+  sed -re 's!<br></br>!<br>!' -e 's/ – /\&#x200A;—\&#x200A;/g'
+}
+
 set -o pipefail
-dopandoc \
-| $TIDY | $XSLT $PAGE_XSL - \
-| sed -re 's!<br></br>!<br>!' -e 's/ – /\&#x200A;—\&#x200A;/g'
+dopandoc | dotidy | doxslt | cleanup
