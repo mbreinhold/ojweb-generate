@@ -40,7 +40,7 @@ MD_DST = $(patsubst %.md,$(BUILD)/%,$(MD_SRC))
 $(BUILD)/%: %.md
 	@mkdir -p $(dir $@)
 	HOME=$(HOME) bash $(HOME)/generate.sh $< >$@ || (rm -f $@; exit 1)
-	echo '$(TS)' >$(UPDATED)
+	@echo '$(TS)' >$(UPDATED)
 
 all:: $(MD_DST)
 
@@ -57,7 +57,7 @@ endef
 
 $(BUILD)/$(CSS): $(HOME)/$(CSS)
 	@mkdir -p $(dir $@)
-	sed -e '1,24d' $< >$@
+	sed -re '1,/^ \*\//d' $< >$@
 	@echo '$(TS)' >$(UPDATED)
 
 ifndef NOCSS
