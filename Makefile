@@ -25,19 +25,11 @@
 
 HOME = $(dir $(firstword $(MAKEFILE_LIST)))
 
-SHELL = /bin/bash		# So that we can use set -o pipefail
-
 TS = $(shell date -Im)
-YEAR = $(shell date +%Y)
 BUILD ?= build
 UPDATED = $(BUILD)/.updated
 
-TIDY = tidy -q -utf8 -asxhtml -n --doctype omit --tidy-mark n -w 0
-XSLT_PARAMS = --stringparam year "$(YEAR)"
-XSLT = xsltproc --nonet $(XSLT_PARAMS)
-PANDOC = pandoc -t html --section-divs --no-highlight
 CSS = page-serif.css
-PAGE_XSL = $(HOME)/page.xsl
 
 
 # Markdown
@@ -47,11 +39,7 @@ MD_DST = $(patsubst %.md,$(BUILD)/%,$(MD_SRC))
 
 $(BUILD)/%: %.md
 	@mkdir -p $(dir $@)
-	(set -o pipefail; \
-	 (echo '<html><head><title/></head><body>'; $(PANDOC) $< -o -; echo '</body></html>') \
-	  | $(TIDY) | $(XSLT) $(PAGE_XSL) - \
-	  | sed -re 's!<br></br>!<br>!' -e 's/ – /\&#x200A;—\&#x200A;/g' >$@) \
-	|| (rm -f $@; exit 1)
+	HOME=$(HOME) bash $(HOME)/generate.sh $< >$@ || (rm -f $@; exit 1)
 	echo '$(TS)' >$(UPDATED)
 
 all:: $(MD_DST)
