@@ -25,7 +25,7 @@
 
 HOME = $(dir $(firstword $(MAKEFILE_LIST)))
 
-TS = $(shell date -Im)
+TS = $(shell date -Im) $(shell git log --abbrev=12 --format=%h -1)
 BUILD ?= build
 UPDATED = $(BUILD)/.updated
 
