@@ -88,7 +88,17 @@
           &dot; License: <a href="https://openjdk.java.net/legal/gplv2+ce.html">GPLv2</a>
           &dot; <a href="https://www.oracle.com/legal/privacy/index.html">Privacy</a>
           &dot; <a href="https://www.oracle.com/legal/trademarks.html">Trademarks</a></div>
-          <div> <s:value-of select="$hash"/> &dot; <s:value-of select="$time"/></div>
+          <div>
+            <s:choose>
+              <s:when test="'$remote' = unknown">
+                <s:value-of select="$hash"/>
+              </s:when>
+              <s:otherwise>
+                <a href="{$remote}/commits/{$branch}/{$file}"><s:value-of select="$hash"/></a>
+              </s:otherwise>
+            </s:choose>
+            &dot; <s:value-of select="$time"/>
+          </div>
         </footer>
       </article>
     </body>

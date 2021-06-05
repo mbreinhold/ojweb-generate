@@ -11,6 +11,13 @@ GIT=$(TZ=UTC git log -1 --abbrev=12 \
 if ! [ "$GIT" ]; then GIT='unknown@unknown'; fi
 TIME=$(echo "$GIT" | cut -d@ -f1)
 HASH=$(echo "$GIT" | cut -d@ -f2)
+BRANCH=$(git branch --show-current)
+
+r=$(git config remote.origin.url)
+case "$r" in
+  http*) REMOTE="$(echo $r | sed -re 's/\.git$//')";;
+  *) REMOTE=unknown;;
+esac
 
 PAGE_XSL=$HOME/page.xsl
 PANDOC='pandoc -t html --section-divs --no-highlight'
@@ -30,6 +37,9 @@ doxslt() {
     --stringparam year $YEAR \
     --stringparam hash $HASH \
     --stringparam time "$TIME" \
+    --stringparam remote "$REMOTE" \
+    --stringparam branch "$BRANCH" \
+    --stringparam file "$SRC" \
     $PAGE_XSL -
 }
 
