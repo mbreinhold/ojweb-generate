@@ -25,8 +25,10 @@
 
 HOME = $(dir $(firstword $(MAKEFILE_LIST)))
 
-TS = $(shell date -Im) $(shell git log --abbrev=12 --format=%h -1)
+SUBDIR ?=			# Optional subdirectory for Git URLs
 BUILD ?= build
+
+TS = $(shell date -Im) $(shell git log --abbrev=12 --format=%h -1)
 UPDATED = $(BUILD)/.updated
 
 CSS = page-serif.css
@@ -39,7 +41,7 @@ MD_DST = $(patsubst %.md,$(BUILD)/%,$(MD_SRC))
 
 $(BUILD)/%: %.md
 	@mkdir -p $(dir $@)
-	HOME=$(HOME) bash $(HOME)/generate.sh $< >$@ || (rm -f $@; exit 1)
+	HOME=$(HOME) bash $(HOME)/generate.sh $< $(SUBDIR) >$@ || (rm -f $@; exit 1)
 	@echo '$(TS)' >$(UPDATED)
 
 all:: $(MD_DST)

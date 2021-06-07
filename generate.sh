@@ -1,7 +1,12 @@
 #! /bin/bash -e
 
-SRC=$1
-DST=$2
+SRC=$1; shift
+SUBDIR=$1; shift
+
+case $SUBDIR in
+  .) SUBDIR=;;
+  *) SUBDIR=$SUBDIR/;;
+esac
 
 YEAR=$(date +%Y)
 
@@ -39,7 +44,7 @@ doxslt() {
     --stringparam time "$TIME" \
     --stringparam remote "$REMOTE" \
     --stringparam branch "$BRANCH" \
-    --stringparam file "$SRC" \
+    --stringparam file "$SUBDIR$SRC" \
     $PAGE_XSL -
 }
 
