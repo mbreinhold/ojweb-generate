@@ -38,13 +38,14 @@ CSS = page-serif.css
 
 MD_SRC = $(shell find * -type f -name '*.md')
 MD_DST = $(patsubst %.md,$(BUILD)/%,$(MD_SRC))
+MAP += $(patsubst $(BUILD)/%, %, $(MD_DST))
+
+all:: $(MD_DST)
 
 $(BUILD)/%: %.md
 	@mkdir -p $(dir $@)
 	HOME=$(HOME) bash $(HOME)/generate.sh $< $(SUBDIR) >$@ || (rm -f $@; exit 1)
 	@echo '$(TS)' >$(UPDATED)
-
-all:: $(MD_DST)
 
 
 # Just copy a file
@@ -71,11 +72,12 @@ endif
 
 HTML_SRC = $(shell find * -type f -name '*.html')
 HTML_DST = $(patsubst %.html,$(BUILD)/%,$(HTML_SRC))
+MAP += $(patsubst $(BUILD)/%, %, $(HTML_DST))
+
+all:: $(HTML_DST)
 
 $(BUILD)/%: %.html
 	$(copy-file)
-
-all:: $(HTML_DST)
 
 
 # Non-Markdown/HTML content
@@ -88,6 +90,16 @@ all:: $(OTHER_DST)
 
 $(BUILD)/%: %
 	$(copy-file)
+
+
+# Simple site map
+
+all:: $(BUILD)/_sitemap
+
+$(BUILD)/_sitemap:
+	@mkdir -p $(dir $@)
+	bash $(HOME)/sitemap.sh $(MAP) >$@ || (rm -f $@; exit 1)
+	@echo '$(TS)' >$(UPDATED)
 
 
 # Preview
