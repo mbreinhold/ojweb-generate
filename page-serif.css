@@ -101,7 +101,8 @@ LI UL, LI OL { margin: 0 0; }
 LI P:last-child { margin-bottom: .5rem; }
 /*LI P + LI P { margin-top: 0; }*/
 
-PRE, TABLE { padding: 0; margin: .5rem 0 .5rem clamp(1rem, 6.7vw, 2rem); width: 700px; }
+PRE, TABLE { padding: 0; margin: .5rem 0 .5rem clamp(1rem, 6.7vw, 2rem);
+             overflow: visible; }
 BLOCKQUOTE { margin: .5rem 1rem .5rem clamp(1rem, 6.7vw, 2rem); }
 LI BLOCKQUOTE { margin-left: 0; margin-right: 0; }
 UL LI { list-style-type: square; }
