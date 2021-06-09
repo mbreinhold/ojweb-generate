@@ -28,7 +28,7 @@ HOME = $(dir $(firstword $(MAKEFILE_LIST)))
 SUBDIR ?=			# Optional subdirectory for Git URLs
 BUILD ?= build
 
-TS = $(shell date -Im) $(shell git log --abbrev=12 --format=%h -1)
+TS = $(shell git log --abbrev=12 --format=%h -1) $(shell date -Im)
 UPDATED = $(BUILD)/.updated
 
 CSS = page-serif.css
@@ -92,13 +92,13 @@ $(BUILD)/%: %
 	$(copy-file)
 
 
-# Simple site map
+# Simple subtree map
 
-all:: $(BUILD)/_sitemap
+all:: $(BUILD)/_map
 
-$(BUILD)/_sitemap:
+$(BUILD)/_map:
 	@mkdir -p $(dir $@)
-	bash $(HOME)/sitemap.sh $(MAP) >$@ || (rm -f $@; exit 1)
+	bash $(HOME)/map.sh "$(TS)" $(MAP) >$@ || (rm -f $@; exit 1)
 	@echo '$(TS)' >$(UPDATED)
 
 
