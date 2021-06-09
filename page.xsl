@@ -26,6 +26,7 @@
   -->
 
 <!DOCTYPE s:stylesheet [
+  <!ENTITY nl "&#x0a;">
   <!ENTITY copy "&#xa9;">
   <!ENTITY dot "&#xb7;">
   <!ENTITY quad "&#x2001;">
@@ -72,18 +73,22 @@
 </s:template>
 
 <s:template mode="header" match="h:section[@class='level4 author']/h:h4">
+  <s:text>&nl;</s:text>
   <div class="author"><s:apply-templates select="*|text()"/></div>
 </s:template>
 
 <s:template mode="header" match="h:section[@class='level4 date']/h:h4">
+  <s:text>&nl;</s:text>
   <div class="date"><s:apply-templates select="*|text()"/></div>
 </s:template>
 
 <s:template mode="header" match="h:section[@class='level2 subtitle']/h:h2">
+  <s:text>&nl;</s:text>
   <div class="subtitle"><s:apply-templates select="*|text()"/></div>
 </s:template>
 
 <s:template mode="header" match="h:section[@class='level1']/h:h1">
+  <s:text>&nl;</s:text>
   <h1 class="title"><s:apply-templates select="*|text()"/></h1>
 </s:template>
 
@@ -124,6 +129,7 @@
 
 <s:template match="/h:html">
   <html>
+    <s:text>&nl;</s:text>
     <head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
       <title>
@@ -136,20 +142,27 @@
       <link rel="shortcut icon" href="/images/nanoduke.ico"/>
       <link rel="stylesheet" type="text/css" href="/page-serif.css"/>
     </head>
+    <s:text>&nl;</s:text>
     <body>
       <article>
+        <s:text>&nl;</s:text>
         <header>
           <s:apply-templates mode="header"
                              select="h:body//h:section[@class='level1'][1]"/>
         </header>
+        <s:text>&nl;</s:text>
         <s:apply-templates mode="non-header" select="h:body/h:section[1]"/>
         <s:apply-templates select="h:body/h:section[@class='level1'][1]/*"/>
+        <s:text>&nl;</s:text>
         <footer class="legal">
+          <s:text>&nl;</s:text>
           <div>&copy; <s:value-of select="$year"/> Oracle Corporation and/or its affiliates</div>
+          <s:text>&nl;</s:text>
           <div><a href="/tou">Terms of Use</a>
           &dot; License: <a href="https://openjdk.java.net/legal/gplv2+ce.html">GPLv2</a>
           &dot; <a href="https://www.oracle.com/legal/privacy/index.html">Privacy</a>
           &dot; <a href="https://www.oracle.com/legal/trademarks.html">Trademarks</a></div>
+          <s:text>&nl;</s:text>
           <div>
             <s:choose>
               <s:when test="'$remote' = unknown">
@@ -164,6 +177,7 @@
             &dot; <s:value-of select="$time"/>
           </div>
         </footer>
+        <s:text>&nl;</s:text>
       </article>
     </body>
   </html>
