@@ -16,7 +16,7 @@ GIT=$(TZ=UTC git log -1 --abbrev=12 \
 if ! [ "$GIT" ]; then GIT='unknown@unknown'; fi
 TIME=$(echo "$GIT" | cut -d@ -f1)
 HASH=$(echo "$GIT" | cut -d@ -f2)
-ISOTIME=$(git log -1 --date=iso-strict --format='%cd')
+ISOTIME=$(git log -1 --date=iso-strict --format='%cd' $SRC)
 BRANCH=$(git branch --show-current)
 
 r=$(git config remote.origin.url)
