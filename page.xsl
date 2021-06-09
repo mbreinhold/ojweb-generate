@@ -63,6 +63,63 @@
 <s:template match="h:p[preceding-sibling::*[1][name()='h4']
                        and not(../preceding-sibling::*[1][name()='h1'])]"/>
 
+<!-- Extract h2 and h4 elements with subtitle, author, and date -->
+
+<s:template mode="header" match="*"/>
+
+<s:template mode="header" match="h:section">
+  <s:apply-templates mode="header" select="*"/>
+</s:template>
+
+<s:template mode="header" match="h:section[@class='level4 author']/h:h4">
+  <div class="author"><s:apply-templates select="*|text()"/></div>
+</s:template>
+
+<s:template mode="header" match="h:section[@class='level4 date']/h:h4">
+  <div class="date"><s:apply-templates select="*|text()"/></div>
+</s:template>
+
+<s:template mode="header" match="h:section[@class='level2 subtitle']/h:h2">
+  <div class="subtitle"><s:apply-templates select="*|text()"/></div>
+</s:template>
+
+<s:template mode="header" match="h:section[@class='level1']/h:h1">
+  <h1 class="title"><s:apply-templates select="*|text()"/></h1>
+</s:template>
+
+<!-- Extract any non-header text in the header sections -->
+
+<s:template mode="non-header" match="h:h1|h:h2|h:h3|h:h4"/>
+
+<s:template mode="non-header" match="@*|node()">
+  <s:copy>
+    <s:apply-templates mode="non-header" select="@*|node()"/>
+  </s:copy>
+</s:template>
+
+<s:template mode="non-header" match="h:section">
+  <s:apply-templates mode="non-header" select="*"/>
+</s:template>
+
+<s:template mode="non-header" match="h:section[@class='level1']">
+  <s:apply-templates mode="non-header"
+                     select="h:section[@class='level2 subtitle'
+                                       or @class='level4 author'
+                                       or @class='level4 date']"/>
+</s:template>
+
+<!-- Skip a subtitle, author, or date section in normal processing -->
+
+<s:template match="h:body/h:section[@class='level1'][1]
+                   /h:section[@class='level2 subtitle'
+                              or @class='level4 author'
+                              or @class='level4 date']"/>
+
+<!-- Skip the leading H1 in normal processing -->
+
+<s:template match="h:body/h:section[@class='level1'][1]
+                   /*[position()=1 and name()='h1']"/>
+
 <!-- Main -->
 
 <s:template match="/h:html">
@@ -81,7 +138,12 @@
     </head>
     <body>
       <article>
-        <s:apply-templates select="h:body/h:section/*"/>
+        <header>
+          <s:apply-templates mode="header"
+                             select="h:body//h:section[@class='level1'][1]"/>
+        </header>
+        <s:apply-templates mode="non-header" select="h:body/h:section[1]"/>
+        <s:apply-templates select="h:body/h:section[@class='level1'][1]/*"/>
         <footer class="legal">
           <div>&copy; <s:value-of select="$year"/> Oracle Corporation and/or its affiliates</div>
           <div><a href="/tou">Terms of Use</a>
@@ -94,7 +156,9 @@
                 <s:value-of select="$hash"/>
               </s:when>
               <s:otherwise>
-                <a href="{$remote}/commits/{$branch}/{$file}"><s:value-of select="$hash"/></a>
+                <a href="{$remote}/commits/{$branch}/{$file}">
+                  <s:value-of select="$hash"/>
+                </a>
               </s:otherwise>
             </s:choose>
             &dot; <s:value-of select="$time"/>

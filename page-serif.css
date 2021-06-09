@@ -89,7 +89,7 @@ B, STRONG, TH { font-weight: bold; }
 
 P { text-indent: clamp(1rem, 6.7vw, 2rem); }
 P:first-child, UL + P, OL + P, BLOCKQUOTE + P, TABLE + P, P.subsection,
-  P.br, P.intro, DIV.toc + P, DIV.image + P { text-indent: 0; }
+  P.br, P.intro, DIV.toc + P, DIV.image + P, HEADER + P { text-indent: 0; }
 P.br { margin-top: .5rem; }
 P.author { margin-bottom: 1rem; }
 P.intro { margin-top: 32px; } /* grid tweak */
@@ -110,7 +110,7 @@ DL { margin-top: .5rem; }
 DD { margin-left: clamp(1rem, 6.7vw, 2rem); }
 
 H1 + P, H2 + P, H3 + P, H4 + P, PRE + P, BLOCKQUOTE + P { text-indent: 0; }
-H1, H2, H3, H4 { font-weight: bold; }
+H1, H2, H3, H4, DIV.subtitle, DIV.author, DIV.date { font-weight: bold; }
 
 /* Grid tweaks */
 H1:first-child { margin-top: -8px; }
@@ -119,18 +119,18 @@ H1:first-child + H1 { margin-top: 1px; }
 
 /* BODY { background: url("grid-12.png") repeat 0 12px; } /**/
 
-H1, H1 + SECTION.subtitle H2:first-child { font-size: 20px; line-height: 2rem; }
+H1 { font-size: 20px; line-height: 2rem; }
+DIV.subtitle { font-size: 20px; }
 H2 { font-size: 18px; }
 
-H1, H2 {
-  font-weight: bold;
-  margin-top: 1rem; margin-bottom: .5rem; }
+H1, H2 { margin-top: 1rem; margin-bottom: .5rem; }
 
-H1 + SECTION H2:first-child { margin-top: 0; }
+H1 + DIV.author, H1 + DIV.date { margin-top: -.5rem; }
 
-H1 + SECTION.subtitle H2:first-child { margin-top: -1.5rem; font-style: italic; } /* Subtitle */
-H1 + SECTION.author H4:first-child, H2 + SECTION.author H4:first-child
-  { margin: -.5rem 0 1rem; } /* Author & date */
+DIV.subtitle { margin: -1rem 0 .5rem; font-style: italic; }
+
+DIV.author, DIV.date { margin: .5rem 0 1rem; }
+DIV.author + DIV.date { margin: -1rem 0 1rem; }
 
 H3, H4 { margin-top: .5rem; margin-bottom: .5rem; }
 H3 { font-style: italic; }
