@@ -25,6 +25,10 @@ case "$r" in
   *) REMOTE=unknown;;
 esac
 
+s=$(echo $SRC | sed -re 's/\.[^\.]+//')
+HEAD=
+if [ -r $s.head ]; then HEAD=$(realpath $s.head); fi
+
 PAGE_XSL=$HOME/page.xsl
 PANDOC='pandoc -t html --section-divs --no-highlight'
 
@@ -47,6 +51,7 @@ doxslt() {
     --stringparam remote "$REMOTE" \
     --stringparam branch "$BRANCH" \
     --stringparam file "$SUBDIR$SRC" \
+    --stringparam head "$HEAD" \
     $PAGE_XSL -
 }
 

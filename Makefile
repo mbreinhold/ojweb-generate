@@ -47,6 +47,8 @@ $(BUILD)/%: %.md
 	HOME=$(HOME) bash $(HOME)/generate.sh $< $(SUBDIR) >$@ || (rm -f $@; exit 1)
 	@echo '$(TS)' >$(UPDATED)
 
+$(foreach file,$(MD_SRC),$(eval $(patsubst %.md,$(BUILD)/%,$(file)): \
+                                $(wildcard $(basename $(file)).head)))
 
 # Just copy a file
 define copy-file

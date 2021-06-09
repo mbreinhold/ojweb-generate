@@ -132,6 +132,7 @@
     <s:text>&nl;</s:text>
     <head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+      <s:text>&nl;</s:text>
       <title>
         <s:value-of select="h:body/h:section[1]/h:h1[1]"/>
         <s:if test="h:body/h:section/h:section[@class='level2 subtitle']">
@@ -139,8 +140,14 @@
           <s:value-of select="h:body/h:section/h:section[@class='level2 subtitle']/h:h2"/>
         </s:if>
       </title>
+      <s:text>&nl;</s:text>
       <link rel="shortcut icon" href="/images/nanoduke.ico"/>
+      <s:text>&nl;</s:text>
       <link rel="stylesheet" type="text/css" href="/page-serif.css"/>
+      <s:if test="$head">
+        <s:text>&nl;</s:text>
+        <s:copy-of select="document($head)/head/*"/>
+      </s:if>
     </head>
     <s:text>&nl;</s:text>
     <body>
