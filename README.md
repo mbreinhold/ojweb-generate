@@ -36,8 +36,8 @@ Source format
 -------------
 
 We use [Pandoc] to generate HTML from Markdown (`.md`) source files in
-Pandoc’s [extended version of Markdown] which includes, among other
-things, [header attributes][pd-hd-attr] and several types of
+Pandoc’s [extended version of Markdown][pd-markdown] which includes,
+among other things, [header attributes][pd-hd-attr] and several types of
 [tables][pd-tables].
 
 ### Title and metadata
