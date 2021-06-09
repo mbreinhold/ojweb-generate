@@ -16,6 +16,7 @@ GIT=$(TZ=UTC git log -1 --abbrev=12 \
 if ! [ "$GIT" ]; then GIT='unknown@unknown'; fi
 TIME=$(echo "$GIT" | cut -d@ -f1)
 HASH=$(echo "$GIT" | cut -d@ -f2)
+ISOTIME=$(git log -1 --date=iso-strict --format='%cd')
 BRANCH=$(git branch --show-current)
 
 r=$(git config remote.origin.url)
@@ -42,6 +43,7 @@ doxslt() {
     --stringparam year $YEAR \
     --stringparam hash $HASH \
     --stringparam time "$TIME" \
+    --stringparam isotime "$ISOTIME" \
     --stringparam remote "$REMOTE" \
     --stringparam branch "$BRANCH" \
     --stringparam file "$SUBDIR$SRC" \

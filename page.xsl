@@ -174,7 +174,7 @@
                 </a>
               </s:otherwise>
             </s:choose>
-            &dot; <s:value-of select="$time"/>
+            &dot; <time datetime="{$isotime}"><s:value-of select="$time"/></time>
           </div>
         </footer>
         <s:text>&nl;</s:text>
