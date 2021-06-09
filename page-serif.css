@@ -119,11 +119,11 @@ H1:first-child + H1 { margin-top: 1px; }
 
 /* BODY { background: url("grid-12.png") repeat 0 12px; } /**/
 
-H1 { font-size: 20px; line-height: 2rem; }
-DIV.subtitle { font-size: 20px; }
+H1, DIV.subtitle { font-size: 20px; }
 H2 { font-size: 18px; }
 
-H1, H2 { margin-top: 1rem; margin-bottom: .5rem; }
+H1 { margin: 1rem 0 1rem; }
+H2 { margin: 1rem 0 .5rem; }
 
 H1 + DIV.author, H1 + DIV.date { margin-top: -.5rem; }
 
