@@ -42,7 +42,7 @@ MAP += $(patsubst $(BUILD)/%, %, $(MD_DST))
 
 all:: $(MD_DST)
 
-$(BUILD)/%: %.md page.xsl
+$(BUILD)/%: %.md $(HOME)/page.xsl
 	@mkdir -p $(dir $@)
 	HOME=$(HOME) bash $(HOME)/generate.sh $< $(SUBDIR) >$@ || (rm -f $@; exit 1)
 	@echo '$(TS)' >$(UPDATED)
