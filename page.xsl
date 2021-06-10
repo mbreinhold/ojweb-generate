@@ -52,17 +52,38 @@
 
 <!-- Serried H4 headers -->
 
-<s:template match="h:section/h:h4[following-sibling::*[1][name()='p']
-                                  and not(../preceding-sibling::*[1][name()='h1'])]">
+<s:template match="h:section/*[1][name()='h4' and following-sibling::*[1][name()='p']]">
   <p class="br">
-    <b><s:copy-of select="*|text()"/></b>
+    <b>
+      <a class="anchor">
+        <s:attribute name="href">
+          <s:text>#</s:text>
+          <s:value-of select="../@id"/>
+        </s:attribute>
+        <s:copy-of select="*|text()"/>
+      </a>
+    </b>
     <s:text>&qquad;</s:text>
     <s:copy-of select="following-sibling::*[1][name()='p']/node()"/>
   </p>
 </s:template>
 
-<s:template match="h:p[preceding-sibling::*[1][name()='h4']
-                       and not(../preceding-sibling::*[1][name()='h1'])]"/>
+<s:template match="h:p[preceding-sibling::*[1][name()='h4']]"/>
+
+<!-- Header anchors -->
+
+<s:template match="h:section/h:h2|h:section/h:h3
+                   |h:section/h:h4[not(following-sibling::*[1][name()='p'])]">
+  <s:copy>
+    <a class="anchor">
+      <s:attribute name="href">
+        <s:text>#</s:text>
+        <s:value-of select="../@id"/>
+      </s:attribute>
+      <s:apply-templates select="@*|node()"/>
+    </a>
+  </s:copy>
+</s:template>
 
 <!-- Extract h2 and h4 elements with subtitle, author, and date -->
 
