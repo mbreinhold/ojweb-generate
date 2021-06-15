@@ -123,6 +123,8 @@
   </s:copy>
 </s:template>
 
+<s:template mode="non-header" match="h:div[@class='table-of-contents']"/>
+
 <s:template mode="non-header" match="h:section">
   <s:apply-templates mode="non-header" select="*"/>
 </s:template>
@@ -145,6 +147,33 @@
 
 <s:template match="h:body/h:section[@class='level1'][1]
                    /*[position()=1 and name()='h1']"/>
+
+<!-- Table of contents -->
+
+<s:template mode="toc" match="@*|node()">
+  <s:copy>
+    <s:apply-templates mode="toc" select="@*|node()"/>
+  </s:copy>
+</s:template>
+
+<s:template mode="toc" match="h:li">
+  <s:variable name="id" select="substring(h:a/@href, 2)"/>
+  <s:if test="not(//h:section[@id=$id]
+                  /ancestor-or-self::h:section/@data-toc='omit') and
+              not(//h:section[@id=$id]
+                  /ancestor::h:section[@data-toc='omit-children'])">
+    <s:copy>
+      <s:apply-templates mode="toc" select="*"/>
+    </s:copy>
+  </s:if>
+</s:template>
+
+<s:template mode="toc" match="h:nav[@id='TOC']">
+  <s:text>&nl;</s:text>
+  <nav class="toc">
+    <s:apply-templates mode="toc" select="h:ul/h:li/h:ul"/>
+  </nav>
+</s:template>
 
 <!-- Main -->
 
@@ -178,6 +207,9 @@
           <s:apply-templates mode="header"
                              select="h:body//h:section[@class='level1'][1]"/>
         </header>
+        <s:if test="h:body//h:div[@class='table-of-contents']">
+          <s:apply-templates mode="toc" select="h:body/h:nav[@id='TOC']"/>
+        </s:if>
         <s:text>&nl;</s:text>
         <s:apply-templates mode="non-header" select="h:body/h:section[1]"/>
         <s:apply-templates select="h:body/h:section[@class='level1'][1]/*"/>

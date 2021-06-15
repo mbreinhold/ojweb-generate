@@ -30,16 +30,17 @@ HEAD=
 if [ -r $s.head ]; then HEAD=$(realpath $s.head); fi
 
 PAGE_XSL=$HOME/page.xsl
-PANDOC='pandoc -t html --section-divs --no-highlight'
+PANDOC='pandoc -s -M pagetitle=foo -V lang=en_US
+       -t html --section-divs --no-highlight --toc'
 
 dopandoc() {
-  echo '<html><head><title/></head><body>'
   if ! $PANDOC $SRC -o -; then exit 1; fi
-  echo '</body></html>'
 }
 
 dotidy() {
-  tidy -q -utf8 -asxhtml -n --doctype omit --tidy-mark n -w 0
+  tidy -q -utf8 -asxhtml -n --doctype omit --tidy-mark n -w 0 \
+       --warn-proprietary-attributes n
+  if [ $? = 2 ]; then exit 2; fi
 }
 
 doxslt() {
@@ -60,4 +61,4 @@ cleanup() {
 }
 
 set -o pipefail
-dopandoc | dotidy | doxslt | cleanup
+dopandoc | tee /tmp/pandoc.html | dotidy | doxslt | cleanup

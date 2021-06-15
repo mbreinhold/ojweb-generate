@@ -89,7 +89,8 @@ B, STRONG, TH { font-weight: bold; }
 
 P { text-indent: clamp(1rem, 6.7vw, 2rem); }
 P:first-child, UL + P, OL + P, BLOCKQUOTE + P, TABLE + P, P.subsection,
-  P.br, P.intro, DIV.toc + P, DIV.image + P, HEADER + P { text-indent: 0; }
+  P.br, P.intro, DIV.toc + P, DIV.image + P, HEADER + P, NAV.toc + P
+  { text-indent: 0; }
 P.br { margin-top: .5rem; }
 P.author { margin-bottom: 1rem; }
 P.intro { margin-top: 32px; } /* grid tweak */
@@ -99,7 +100,6 @@ LI LI { margin-right: 0; text-align: left; }
 UL, OL { margin: .5rem 0; padding-left: clamp(1rem, 6.7vw, 2rem); }
 LI UL, LI OL { margin: 0 0; }
 LI P:last-child { margin-bottom: .5rem; }
-/*LI P + LI P { margin-top: 0; }*/
 
 PRE, TABLE { padding: 0; margin: .5rem 0 .5rem clamp(1rem, 6.7vw, 2rem);
              overflow: visible; }
@@ -141,3 +141,12 @@ H1, H2, DIV, BODY > P, BODY > UL, BODY > OL, IMG { margin-left: 0px; }
 TABLE TD, TABLE TH { padding-left: 1em; padding-top: .5em; }
 TABLE TD:first-child, TABLE TH:first-child { padding-left: 0; }
 TABLE TH { padding-top: 0; }
+
+NAV.toc { margin-bottom: 1rem; }
+NAV.toc LI { list-style-type: none; }
+NAV.toc > UL > LI { margin: .25rem 0; }
+NAV.toc LI UL { text-align: left; font-size: 14px; line-height: 20px;
+                padding-left: 1rem; margin: .25rem 0; }
+NAV.toc LI UL LI { display: inline; }
+NAV.toc LI UL LI::after { content: "\a0· "; }
+NAV.toc LI UL LI:last-child::after { content: ""; }

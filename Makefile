@@ -53,7 +53,7 @@ $(foreach file,$(MD_SRC),$(eval $(patsubst %.md,$(BUILD)/%,$(file)): \
 # Just copy a file
 define copy-file
 	@mkdir -p $(dir $@)
-	cp $< $@
+	cp "$<" "$@"
 	@echo '$(TS)' >$(UPDATED)
 endef
 
