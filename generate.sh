@@ -29,7 +29,6 @@ s=$(echo $SRC | sed -re 's/\.[^\.]+//')
 HEAD=
 if [ -r $s.head ]; then HEAD=$(realpath $s.head); fi
 
-PAGE_XSL=$HOME/page.xsl
 PANDOC='pandoc -s -M pagetitle=foo -V lang=en_US
        -t html --section-divs --no-highlight --toc'
 
@@ -40,10 +39,17 @@ dopandoc() {
 dotidy() {
   tidy -q -utf8 -asxhtml -n --doctype omit --tidy-mark n -w 0 \
        --warn-proprietary-attributes n
-  if [ $? = 2 ]; then exit 2; fi
+  if [ $? = 2 ]; then exit 2; fi     # 2 => Warnings only
 }
 
-doxslt() {
+HEADER_XSL=$HOME/header.xsl
+PAGE_XSL=$HOME/page.xsl
+
+doheader() {
+  xsltproc --nonet $HEADER_XSL -
+}
+
+dopage() {
   xsltproc --nonet \
     --stringparam year $YEAR \
     --stringparam hash $HASH \
@@ -61,4 +67,4 @@ cleanup() {
 }
 
 set -o pipefail
-dopandoc | tee /tmp/pandoc.html | dotidy | doxslt | cleanup
+dopandoc | dotidy | doheader | dopage | cleanup

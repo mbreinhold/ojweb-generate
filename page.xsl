@@ -85,97 +85,61 @@
   </s:copy>
 </s:template>
 
-<!-- Extract h2 and h4 elements with subtitle, author, and date -->
-
-<s:template mode="header" match="*"/>
-
-<s:template mode="header" match="h:section">
-  <s:apply-templates mode="header" select="*"/>
-</s:template>
-
-<s:template mode="header" match="h:section[@class='level4 author']/h:h4">
-  <s:text>&nl;</s:text>
-  <div class="author"><s:apply-templates select="*|text()"/></div>
-</s:template>
-
-<s:template mode="header" match="h:section[@class='level4 date']/h:h4">
-  <s:text>&nl;</s:text>
-  <div class="date"><s:apply-templates select="*|text()"/></div>
-</s:template>
-
-<s:template mode="header" match="h:section[@class='level2 subtitle']/h:h2">
-  <s:text>&nl;</s:text>
-  <div class="subtitle"><s:apply-templates select="*|text()"/></div>
-</s:template>
-
-<s:template mode="header" match="h:section[@class='level1']/h:h1">
-  <s:text>&nl;</s:text>
-  <h1 class="title"><s:apply-templates select="*|text()"/></h1>
-</s:template>
-
-<!-- Extract any non-header text in the header sections -->
-
-<s:template mode="non-header" match="h:h1|h:h2|h:h3|h:h4"/>
-
-<s:template mode="non-header" match="@*|node()">
-  <s:copy>
-    <s:apply-templates mode="non-header" select="@*|node()"/>
-  </s:copy>
-</s:template>
-
-<s:template mode="non-header" match="h:div[@class='table-of-contents']"/>
-
-<s:template mode="non-header" match="h:section">
-  <s:apply-templates mode="non-header" select="*"/>
-</s:template>
-
-<s:template mode="non-header" match="h:section[@class='level1']">
-  <s:apply-templates mode="non-header"
-                     select="h:section[@class='level2 subtitle'
-                                       or @class='level4 author'
-                                       or @class='level4 date']"/>
-</s:template>
-
-<!-- Skip a subtitle, author, or date section in normal processing -->
-
-<s:template match="h:body/h:section[@class='level1'][1]
-                   /h:section[@class='level2 subtitle'
-                              or @class='level4 author'
-                              or @class='level4 date']"/>
-
-<!-- Skip the leading H1 in normal processing -->
-
-<s:template match="h:body/h:section[@class='level1'][1]
-                   /*[position()=1 and name()='h1']"/>
-
 <!-- Table of contents -->
 
 <s:template mode="toc" match="@*|node()">
+  <s:param name="div-id" select="none"/>
   <s:copy>
-    <s:apply-templates mode="toc" select="@*|node()"/>
+    <s:apply-templates mode="toc" select="@*|node()">
+      <s:with-param name="div-id" select="$div-id"/>
+    </s:apply-templates>
   </s:copy>
 </s:template>
 
 <s:template mode="toc" match="h:li">
+  <s:param name="div-id" select="none"/>
   <s:variable name="id" select="substring(h:a/@href, 2)"/>
   <s:if test="not(//h:section[@id=$id]
                   /ancestor-or-self::h:section/@data-toc='omit') and
               not(//h:section[@id=$id]
-                  /ancestor::h:section[@data-toc='omit-children'])">
+                  /ancestor::h:section[@data-toc='omit-children']) and
+              not($id=$div-id)">
     <s:copy>
-      <s:apply-templates mode="toc" select="*"/>
+      <s:apply-templates mode="toc" select="*">
+        <s:with-param name="div-id" select="$div-id"/>
+      </s:apply-templates>
     </s:copy>
   </s:if>
 </s:template>
 
 <s:template mode="toc" match="h:nav[@id='TOC']">
+  <s:param name="div-id" select="none"/>
   <s:text>&nl;</s:text>
   <nav class="toc">
-    <s:apply-templates mode="toc" select="h:ul/h:li/h:ul"/>
+    <s:apply-templates mode="toc" select="h:ul/h:li/h:ul">
+      <s:with-param name="div-id" select="$div-id"/>
+    </s:apply-templates>
   </nav>
 </s:template>
 
+<s:template match="h:div[@class='table-of-contents']">
+  <s:apply-templates mode="toc" select="//h:nav[@id='TOC']">
+    <!-- Pass the id of this DIV's section down so that we can
+         omit that section from the TOC -->
+    <s:with-param name="div-id" select="ancestor::h:section[1]/@id"/>
+  </s:apply-templates>
+</s:template>
+
+<s:template match="h:nav[@id='TOC']"/>
+
 <!-- Main -->
+
+<s:template match="h:header">
+  <s:copy>
+    <s:apply-templates select="@*|node()"/>
+  </s:copy>
+  <s:text>&nl;</s:text>
+</s:template>
 
 <s:template match="/h:html">
   <html>
@@ -184,10 +148,10 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
       <s:text>&nl;</s:text>
       <title>
-        <s:value-of select="h:body/h:section[1]/h:h1[1]"/>
-        <s:if test="h:body/h:section/h:section[@class='level2 subtitle']">
+        <s:value-of select="h:body/h:header/h:h1[@class='title']"/>
+        <s:if test="h:body/h:header/h:div[@class='subtitle']">
           <s:text>: </s:text>
-          <s:value-of select="h:body/h:section/h:section[@class='level2 subtitle']/h:h2"/>
+          <s:value-of select="h:body/h:header/h:div[@class='subtitle']"/>
         </s:if>
       </title>
       <s:text>&nl;</s:text>
@@ -203,16 +167,7 @@
     <body>
       <article>
         <s:text>&nl;</s:text>
-        <header>
-          <s:apply-templates mode="header"
-                             select="h:body//h:section[@class='level1'][1]"/>
-        </header>
-        <s:if test="h:body//h:div[@class='table-of-contents']">
-          <s:apply-templates mode="toc" select="h:body/h:nav[@id='TOC']"/>
-        </s:if>
-        <s:text>&nl;</s:text>
-        <s:apply-templates mode="non-header" select="h:body/h:section[1]"/>
-        <s:apply-templates select="h:body/h:section[@class='level1'][1]/*"/>
+        <s:apply-templates select="h:body/*"/>
         <s:text>&nl;</s:text>
         <footer class="legal">
           <s:text>&nl;</s:text>

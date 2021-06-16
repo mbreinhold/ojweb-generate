@@ -64,8 +64,14 @@ optional.  Blank lines between these elements are ignored.
 
 ### Table of contents
 
-To include a simple, two-level table of contents (TOC) at the top of your
-document, include this line right after the final header line:
+To include a simple, two-level table of contents in your document, place
+this line where you’d like the table to appear:
+
+    <div class="table-of-contents"/>
+
+If you wish to place a heading before the table, use an `h4` heading:
+
+    #### Contents
 
     <div class="table-of-contents"/>
 
@@ -73,10 +79,10 @@ document, include this line right after the final header line:
 inline elements and so wraps them in `p` elements, which is not helpful,
 so we use a `div` instead.)
 
-To omit a section and all of its subsections from the TOC, annotate the
-section’s header with `{toc=omit}`.  To omit all of the subsections of a
-section but not the section itself, annotate the section’s header with
-`{toc=omit-children}`.  For example:
+To omit a section and all of its subsections from the table of contents,
+annotate the section’s header with `{toc=omit}`.  To omit all of the
+subsections of a section but not the section itself, annotate the
+section’s header with `{toc=omit-children}`.  For example:
 
     ## Style Guidelines for Text Blocks {toc=omit-children}
 
