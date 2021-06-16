@@ -25,7 +25,7 @@
 
 HOME = $(dir $(firstword $(MAKEFILE_LIST)))
 
-SUBDIR ?=			# Optional subdirectory for Git URLs
+SUBDIR ?=			# Optional subdirectory to include in Git URLs
 BUILD ?= build
 
 TS = $(shell git log --abbrev=12 --format=%h -1) $(shell date -Im)
@@ -42,7 +42,7 @@ MAP += $(patsubst $(BUILD)/%, %, $(MD_DST))
 
 all:: $(MD_DST)
 
-$(BUILD)/%: %.md $(HOME)/page.xsl
+$(BUILD)/%: %.md $(HOME)/page.xsl $(HOME)/generate.sh
 	@mkdir -p $(dir $@)
 	HOME=$(HOME) bash $(HOME)/generate.sh $< $(SUBDIR) >$@ || (rm -f $@; exit 1)
 	@echo '$(TS)' >$(UPDATED)
@@ -98,10 +98,9 @@ $(BUILD)/%: %
 
 all:: $(BUILD)/_map
 
-$(BUILD)/_map:
+$(BUILD)/_map: $(HOME)/map.sh $(UPDATED)
 	@mkdir -p $(dir $@)
 	bash $(HOME)/map.sh "$(TS)" $(MAP) >$@ || (rm -f $@; exit 1)
-	@echo '$(TS)' >$(UPDATED)
 
 
 # Preview
