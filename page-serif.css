@@ -95,7 +95,10 @@ LI UL, LI OL { margin: 0 0; }
 LI P:last-child { margin-bottom: .5rem; }
 
 PRE, TABLE { padding: 0; margin: .5rem 0 .5rem clamp(1rem, 6.7vw, 2rem);
-             overflow: visible; }
+             overflow-x: scroll;
+             scrollbar-width: none; -ms-overflow-style: none; }
+PRE::-webkit-scrollbar, TABLE::-webkit-scrollbar {
+    display: none; width: 0px; background: transparent; }
 BLOCKQUOTE { margin: .5rem clamp(1rem, 6.7vw, 2rem); }
 LI BLOCKQUOTE { margin-left: 0; margin-right: 0; }
 UL LI { list-style-type: square; }

@@ -92,7 +92,8 @@ $(BUILD)/%: %.html
 # Non-Markdown/HTML content
 
 OTHER_SRC = $(shell find * -type f \
-                           \( -name '*.jpg' -o -name '*.png' -o -name '*.svg' \))
+	                 \( -name '*.jpg' -o -name '*.png' -o -name '*.svg' \) \
+                    | grep -v '^build/')
 OTHER_DST = $(patsubst %,$(BUILD)/%,$(OTHER_SRC))
 
 all:: $(OTHER_DST)
