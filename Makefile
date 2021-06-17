@@ -34,6 +34,13 @@ UPDATED = $(BUILD)/.updated
 CSS = page-serif.css
 
 
+# Note an update
+define updated
+	@echo '$(TS)' >$(UPDATED)
+	@rm -f $(BUILD)/_map
+endef
+
+
 # Markdown
 
 MD_SRC = $(shell find * -type f -name '*.md')
@@ -45,7 +52,7 @@ all:: $(MD_DST)
 $(BUILD)/%: %.md $(HOME)/header.xsl $(HOME)/page.xsl $(HOME)/generate.sh
 	@mkdir -p $(dir $@)
 	HOME=$(HOME) bash $(HOME)/generate.sh $< $(SUBDIR) >$@ || (rm -f $@; exit 1)
-	@echo '$(TS)' >$(UPDATED)
+	$(updated)
 
 $(foreach file,$(MD_SRC),$(eval $(patsubst %.md,$(BUILD)/%,$(file)): \
                                 $(wildcard $(basename $(file)).head)))
@@ -54,7 +61,7 @@ $(foreach file,$(MD_SRC),$(eval $(patsubst %.md,$(BUILD)/%,$(file)): \
 define copy-file
 	@mkdir -p $(dir $@)
 	cp "$<" "$@"
-	@echo '$(TS)' >$(UPDATED)
+	$(updated)
 endef
 
 
@@ -63,7 +70,7 @@ endef
 $(BUILD)/$(CSS): $(HOME)/$(CSS)
 	@mkdir -p $(dir $@)
 	sed -re '1,/^ \*\//d' $< >$@
-	@echo '$(TS)' >$(UPDATED)
+	$(updated)
 
 ifndef NOCSS
 all:: $(BUILD)/$(CSS)
@@ -98,7 +105,7 @@ $(BUILD)/%: %
 
 all:: $(BUILD)/_map
 
-$(BUILD)/_map: $(HOME)/map.sh $(UPDATED)
+$(BUILD)/_map: $(HOME)/map.sh
 	@mkdir -p $(dir $@)
 	bash $(HOME)/map.sh "$(TS)" $(MAP) >$@ || (rm -f $@; exit 1)
 
