@@ -44,20 +44,19 @@ TABLE { border-collapse: collapse; border-spacing: 0; }
 A { text-decoration: none; }
 A:link, TABLE.toc A:visited { color: #437291; }
 A:visited { color: #666666; }
-A.anchor:link, A.anchor:visited { color: black; }
+A.anchor:link, A.anchor:visited { color: inherit; }
 A[href]:hover { color: #e76f00; }
 A IMG { border-width: 0px; }
 
-HTML { font-size: 24px; }
-/* HTML { font-size: clamp(23px, 3.35vw, 24px); } */
-  /* min 22px looks better on iOS; min 23px looks better on FireFox & Chromium */
+HTML { font-size: 24px; }       /* Grid */
 HTML > BODY { font-size: 16px; }
 BODY {
   background: white;
   margin: auto;
   margin-top: 0;
   margin-bottom: calc(100vh - 8rem);
-  padding: clamp(6px, 6.7vw, 2rem); /* 6.7vw = 48px = 2rem at 716px width */
+  /* 6.7vw = 48px = 2rem at 716px width */
+  padding: clamp(1rem, 6.7vw, 2rem) clamp(.25rem, 6.7vw, 2rem);
 
   hyphens: auto;
   -webkit-hyphens: auto;
@@ -77,9 +76,8 @@ FOOTER.legal A { color: #888; }
 H1, H2, H3, H4 { text-align: left; }
 
 BODY { font-family: "DejaVu Serif", "Bitstream Vera Serif", Georgia, serif; }
-CODE, TT, .jref, DIV.spec .open, TABLE.profiles, FOOTER.legal {
-  font-family: "DejaVu Sans", "Bitstream Vera Sans",
-               "Verdana", Helvetica, sans-serif; }
+CODE, TT, FOOTER.legal { font-family: "DejaVu Sans", "Bitstream Vera Sans",
+                         "Verdana", Helvetica, sans-serif; }
 PRE, PRE > CODE { font-family: "DejaVu Sans Mono", "Bitstream Vera Sans Mono",
                   Monaco, "Courier New", monospace; }
 
@@ -87,13 +85,8 @@ I, EM { font-style: italic; }
 I I, EM EM { font-style: normal; }
 B, STRONG, TH { font-weight: bold; }
 
-P { text-indent: clamp(1rem, 6.7vw, 2rem); }
-P:first-child, UL + P, OL + P, BLOCKQUOTE + P, TABLE + P, P.subsection,
-  P.br, P.intro, DIV.toc + P, DIV.image + P, HEADER + P, NAV.toc + P
-  { text-indent: 0; }
+P + P { text-indent: clamp(1rem, 6.7vw, 2rem); }
 P.br { margin-top: .5rem; }
-P.author { margin-bottom: 1rem; }
-P.intro { margin-top: 32px; } /* grid tweak */
 /*LI { margin-right: clamp(.5rem, 3.35vw, 1rem); }*/
 LI LI { margin-right: 0; text-align: left; }
 
@@ -103,20 +96,17 @@ LI P:last-child { margin-bottom: .5rem; }
 
 PRE, TABLE { padding: 0; margin: .5rem 0 .5rem clamp(1rem, 6.7vw, 2rem);
              overflow: visible; }
-BLOCKQUOTE { margin: .5rem 1rem .5rem clamp(1rem, 6.7vw, 2rem); }
+BLOCKQUOTE { margin: .5rem clamp(1rem, 6.7vw, 2rem); }
 LI BLOCKQUOTE { margin-left: 0; margin-right: 0; }
 UL LI { list-style-type: square; }
 
 DL { margin-top: .5rem; }
 DD { margin-left: clamp(1rem, 6.7vw, 2rem); }
 
-H1 + P, H2 + P, H3 + P, H4 + P, PRE + P, BLOCKQUOTE + P { text-indent: 0; }
 H1, H2, H3, H4, DIV.subtitle, DIV.author, DIV.date { font-weight: bold; }
 
 /* Grid tweaks */
-H1:first-child { margin-top: -8px; }
-H1:first-child + P { margin-top: 2px; }
-H1:first-child + H1 { margin-top: 1px; }
+H1:first-child { margin-top: 4px; }
 
 /* BODY { background: url("grid-12.png") repeat 0 12px; } /**/
 
