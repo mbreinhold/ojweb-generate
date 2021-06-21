@@ -29,11 +29,13 @@ later), plus the usual core utilities.
 
 To install these on a Debian-based system:
 
-    $ apt-get install git tidy make xsltproc pandoc
+    $ apt-get install make git tidy xsltproc pandoc
 
 To install these on macOS using [Homebrew]:
 
-    $ brew install git tidy-html5 pandoc
+    $ brew install coreutils gnu-sed make git tidy-html5 pandoc
+    $ export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+    $ export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
     $ export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
 
 
@@ -106,6 +108,20 @@ wrapped in a `head` element:
 The children of the `head` element in this file will be copied to the end
 of the `head` element in the generated HTML.
 
+This feature can be used to, _e.g._, enable [MathJax] in documents that
+require mathematics:
+
+    <head>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
+      </script>
+      <script id="MathJax-script" async="1"
+              src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+      </script>
+    </head>
+
+(If you do use MathJax then you’ll need to double every backslash, since
+Markdown interprets backslashes as quotation operators.)
+
 Please avoid using optional `head` content unless absolutely
 necessary. CSS rules introduced in this way can interfere with the
 default stylesheet and JavaScript, of course, comes with its own set of
@@ -117,3 +133,4 @@ risks.
 [pd-tables]: https://pandoc.org/MANUAL.html#tables
 [pd-hd-attr]: https://pandoc.org/MANUAL.html#extension-header_attributes
 [Homebrew]: https://brew.sh
+[MathJax]: https://mathjax.org/
