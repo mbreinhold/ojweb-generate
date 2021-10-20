@@ -8,6 +8,30 @@ case $SUBDIR in
   *) SUBDIR=$SUBDIR/;;
 esac
 
+
+PANDOC='pandoc -s -M pagetitle=Untitled -V lang=en_US
+       -f markdown+tex_math_single_backslash --mathjax
+       -t html --section-divs --no-highlight --toc'
+
+dopandoc() {
+  if ! $PANDOC $SRC -o -; then exit 1; fi
+}
+
+
+dotidy() {
+  tidy -q -utf8 -asxhtml -n --doctype omit --tidy-mark n -w 0 \
+       --warn-proprietary-attributes n
+  if [ $? = 2 ]; then exit 2; fi     # 2 => Warnings only
+}
+
+
+HEADER_XSL=$HOME/header.xsl
+
+doheader() {
+  xsltproc --nonet $HEADER_XSL -
+}
+
+
 YEAR=$(date +%Y)
 
 GIT=$(TZ=UTC git log -1 --abbrev=12 \
@@ -25,30 +49,11 @@ case "$r" in
   *) REMOTE=unknown;;
 esac
 
+PAGE_XSL=$HOME/page.xsl
+
 s=$(echo $SRC | sed -re 's/\.[^\.]+//')
 HEAD=
 if [ -r $s.head ]; then HEAD=$(realpath $s.head); fi
-
-PANDOC='pandoc -s -M pagetitle=Untitled -V lang=en_US
-       -f markdown+tex_math_single_backslash --mathjax
-       -t html --section-divs --no-highlight --toc'
-
-dopandoc() {
-  if ! $PANDOC $SRC -o -; then exit 1; fi
-}
-
-dotidy() {
-  tidy -q -utf8 -asxhtml -n --doctype omit --tidy-mark n -w 0 \
-       --warn-proprietary-attributes n
-  if [ $? = 2 ]; then exit 2; fi     # 2 => Warnings only
-}
-
-HEADER_XSL=$HOME/header.xsl
-PAGE_XSL=$HOME/page.xsl
-
-doheader() {
-  xsltproc --nonet $HEADER_XSL -
-}
 
 MATHJAX_URL=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js
 
@@ -69,6 +74,7 @@ dopage() {
 cleanup() {
   sed -re 's!<br></br>!<br>!' -e 's/ – /\&#x200A;—\&#x200A;/g'
 }
+
 
 set -o pipefail
 dopandoc | dotidy | doheader | dopage | cleanup
