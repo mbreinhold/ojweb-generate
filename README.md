@@ -2,6 +2,7 @@
 OpenJDK Web Page Generator
 ==========================
 
+
 The `Makefile` in this repository generates HTML files and other assets
 for a subtree of the `openjdk.java.net` web site.
 
@@ -12,7 +13,7 @@ repository into your local repository and then run its `Makefile`:
     $ git clone <URL>/ojweb-generate.git
     $ make -f ojweb-generate/Makefile
 
-It will generate docs into `$BUILD`, or into `./build` if the `BUILD`
+It will write its output into `$BUILD`, or into `./build` if the `BUILD`
 environment variable is not set.
 
 This repository includes a tiny web server which you can use to preview
@@ -22,9 +23,10 @@ the generated files locally:
 
 Then point your browser at `http://localhost:8081/`.
 
+
 ### Tools required
 
-You’ll need Git, Tidy, GNU Make, xsltproc, and [Pandoc] (version 2.5 or
+You’ll need GNU Make, Git, Tidy, xsltproc, and [Pandoc] (version 2.5 or
 later), plus the usual core utilities.
 
 To install these on a Debian-based system:
@@ -44,8 +46,8 @@ Source format
 
 We use [Pandoc] to generate HTML from Markdown (`.md`) source files in
 Pandoc’s [extended version of Markdown][pd-markdown] which includes,
-among other things, [header attributes][pd-hd-attr] and several types of
-[tables][pd-tables].
+among other things, support for [header attributes][pd-hd-attr], several
+types of [tables][pd-tables], and mathematics.
 
 
 ### Title and metadata
@@ -71,7 +73,7 @@ this line where you’d like the table to appear:
 
     <div class="table-of-contents"/>
 
-If you wish to place a heading before the table, use an `h4` heading:
+To place a heading before the table, use an `h4` heading:
 
     #### Contents
 
@@ -87,6 +89,18 @@ subsections of a section but not the section itself, annotate the
 section’s header with `{toc=omit-children}`.  For example:
 
     ## Style Guidelines for Text Blocks {toc=omit-children}
+
+
+### Mathematics
+
+[MathJax] is enabled for mathematical expressions using TeX and LaTeX
+notation.  Enclose inline mathematics in `\( ... \)`, and enclose
+displayed equations in `\[ ... \]`:
+
+    When \(a \ne 0\) there are two solutions to \(ax^2+bx+c=0\),
+    which are \[x = {-b \pm\sqrt{b^2-4ac} \over 2a}.\]
+
+The MathJax JavaScript display engine is loaded only when needed.
 
 
 ### Optional `head` content
@@ -108,20 +122,6 @@ wrapped in a `head` element:
 The children of the `head` element in this file will be copied to the end
 of the `head` element in the generated HTML.
 
-This feature can be used to, _e.g._, enable [MathJax] in documents that
-require mathematics:
-
-    <head>
-      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
-      </script>
-      <script id="MathJax-script" async="1"
-              src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-      </script>
-    </head>
-
-(If you do use MathJax then you’ll need to double every backslash, since
-Markdown interprets backslashes as quotation operators.)
-
 Please avoid using optional `head` content unless absolutely
 necessary. CSS rules introduced in this way can interfere with the
 default stylesheet and JavaScript, of course, comes with its own set of
@@ -133,4 +133,4 @@ risks.
 [pd-tables]: https://pandoc.org/MANUAL.html#tables
 [pd-hd-attr]: https://pandoc.org/MANUAL.html#extension-header_attributes
 [Homebrew]: https://brew.sh
-[MathJax]: https://mathjax.org/
+[MathJax]: https://docs.mathjax.org/en/latest/index.html

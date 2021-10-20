@@ -29,7 +29,8 @@ s=$(echo $SRC | sed -re 's/\.[^\.]+//')
 HEAD=
 if [ -r $s.head ]; then HEAD=$(realpath $s.head); fi
 
-PANDOC='pandoc -s -M pagetitle=foo -V lang=en_US
+PANDOC='pandoc -s -M pagetitle=Untitled -V lang=en_US
+       -f markdown+tex_math_single_backslash --mathjax
        -t html --section-divs --no-highlight --toc'
 
 dopandoc() {
@@ -49,6 +50,8 @@ doheader() {
   xsltproc --nonet $HEADER_XSL -
 }
 
+MATHJAX_URL=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js
+
 dopage() {
   xsltproc --nonet \
     --stringparam year $YEAR \
@@ -59,6 +62,7 @@ dopage() {
     --stringparam branch "$BRANCH" \
     --stringparam file "$SUBDIR$SRC" \
     --stringparam head "$HEAD" \
+    --stringparam mathjax-url "$MATHJAX_URL" \
     $PAGE_XSL -
 }
 

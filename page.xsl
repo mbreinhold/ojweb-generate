@@ -158,6 +158,9 @@
       <link rel="shortcut icon" href="/images/nanoduke.ico"/>
       <s:text>&nl;</s:text>
       <link rel="stylesheet" type="text/css" href="/page-serif.css"/>
+      <s:if test="h:body//h:span[@class='math inline' or @class='math display']">
+        <script src="{$mathjax-url}"/>
+      </s:if>
       <s:if test="$head">
         <s:text>&nl;</s:text>
         <s:copy-of select="document($head)/head/*"/>
