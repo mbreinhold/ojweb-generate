@@ -23,20 +23,29 @@
 # questions.
 #
 
-HOME = $(subst /,,$(dir $(lastword $(MAKEFILE_LIST))))
+# To customize this Makefile, create a `Local.gmk` file in your docs
+# directory.  Be aware, however, that the more complex your customization
+# then the higher the probability that it will break with future versions
+# of this Makefile.  Consider, instead, proposing changes to this
+# Makefile and related files.
+
+
+SHELL = /bin/bash		# So that we can `set -o pipefail`
+
+HOME = $(subst /,,$(dir $(firstword $(MAKEFILE_LIST))))
 
 SUBDIR ?=			# Optional subdirectory to include in Git URLs
 BUILD ?= build
 
-TS = $(shell git log --abbrev=12 --format=%h -1) $(shell date -Im)
-
-UPDATED = $(BUILD)/.updated
-CSS = page-serif.css
+TIMESTAMP = $(shell git log --abbrev=12 --format=%h -1) $(shell date -Im)
 
 
 # Note an update
-define updated
-	@echo '$(TS)' >$(UPDATED)
+
+UPDATED_FILE = $(BUILD)/.updated
+
+define UPDATED
+	@echo '$(TIMESTAMP)' >$(UPDATED_FILE)
 	@rm -f $(BUILD)/_map
 endef
 
@@ -49,10 +58,40 @@ MAP += $(patsubst $(BUILD)/%, %, $(MD_DST))
 
 all:: $(MD_DST)
 
-$(BUILD)/%: %.md $(HOME)/header.xsl $(HOME)/page.xsl $(HOME)/generate.sh
+PANDOC_OPTS = -f markdown+tex_math_single_backslash --mathjax \
+              -t html --section-divs --no-highlight --toc \
+              $(MORE_PANDOC_OPTS)
+
+define PANDOC
+pandoc -s -M pagetitle=Untitled -V lang=en_US \
+	$(PANDOC_OPTS) $(1) -o -
+endef
+
+define TIDY
+(tidy -q -utf8 -asxhtml -n --doctype omit --tidy-mark n -w 0 \
+      --warn-proprietary-attributes n; \
+ if [ $$? = 2 ]; then exit 2; fi)
+endef
+
+HEADER_XSL = $(HOME)/header.xsl
+
+define HEADER
+(xsltproc --nonet $(HEADER_XSL) -; if [ $$? != 0 ]; then exit 3; fi)
+endef
+
+define GENERATE
+HOME=$(HOME) bash $(HOME)/gen-html.sh $(1) $(SUBDIR)
+endef
+
+# If you're creating a `Local.gmk` to customize Markdown processing then
+# if overriding any of the above variables does not suffice then consider
+# creating a variant of this rule for specific targets:
+$(BUILD)/%: %.md $(HOME)/header.xsl $(HOME)/page.xsl $(HOME)/gen-html.sh
 	@mkdir -p $(dir $@)
-	HOME=$(HOME) bash $(HOME)/generate.sh $< $(SUBDIR) >$@ || (rm -f $@; exit 1)
-	$(updated)
+	set -o pipefail; \
+	  $(call PANDOC,$<) | $(TIDY) | $(HEADER) | $(call GENERATE,$<) >$@ \
+	  || (s=$$?; rm -f $@; exit $$s)
+	$(UPDATED)
 
 
 # Prerequisites for optional .head files
@@ -62,22 +101,24 @@ $(foreach file,$(MD_SRC),$(eval $(patsubst %.md,$(BUILD)/%,$(file)): \
 
 
 # Just copy a file
-define copy-file
+define COPY_FILE
 	@mkdir -p $(dir $@)
 	cp "$<" "$@"
-	$(updated)
+	$(UPDATED)
 endef
 
 
 # CSS
 
-$(BUILD)/$(CSS): $(HOME)/$(CSS)
+CSS_NAME = page-serif.css
+
+$(BUILD)/$(CSS_NAME): $(HOME)/$(CSS_NAME)
 	@mkdir -p $(dir $@)
 	sed -re '1,/^ \*\//d' $< >$@
-	$(updated)
+	$(UPDATED)
 
 ifndef NOCSS
-all:: $(BUILD)/$(CSS)
+all:: $(BUILD)/$(CSS_NAME)
 endif
 
 
@@ -90,7 +131,7 @@ MAP += $(patsubst $(BUILD)/%, %, $(HTML_DST))
 all:: $(HTML_DST)
 
 $(BUILD)/%: %.html
-	$(copy-file)
+	$(COPY_FILE)
 
 
 # Non-Markdown/HTML content
@@ -103,7 +144,12 @@ OTHER_DST = $(patsubst %,$(BUILD)/%,$(OTHER_SRC))
 all:: $(OTHER_DST)
 
 $(BUILD)/%: %
-	$(copy-file)
+	$(COPY_FILE)
+
+
+# Local definitions
+
+-include Local.gmk
 
 
 # Simple subtree map
@@ -112,7 +158,7 @@ all:: $(BUILD)/_map
 
 $(BUILD)/_map: $(HOME)/map.sh
 	@mkdir -p $(dir $@)
-	bash $(HOME)/map.sh "$(TS)" $(MAP) >$@ || (rm -f $@; exit 1)
+	bash $(HOME)/map.sh "$(TIMESTAMP)" $(MAP) >$@ || (rm -f $@; exit 1)
 
 
 # Preview
@@ -125,3 +171,6 @@ preview:
 
 clean:
 	rm -rf $(BUILD)
+
+
+.PHONY: all preview clean

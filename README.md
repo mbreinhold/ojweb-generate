@@ -6,15 +6,15 @@ OpenJDK Web Page Generator
 The `Makefile` in this repository generates HTML files and other assets
 for a subtree of the `openjdk.java.net` web site.
 
-To use it to preview a local clone of a subtree repository, clone this
-repository into your local repository and then run its `Makefile`:
+To use it to preview a local clone of a documentation repository, clone
+this repository into your local repository and then run its `Makefile`:
 
-    $ cd <subtree-repo>
+    $ cd <docs-repo>
     $ git clone <URL>/ojweb-generate.git
     $ make -f ojweb-generate/Makefile
 
-It will write its output into `$BUILD`, or into `./build` if the `BUILD`
-environment variable is not set.
+The `Makefile` will write its output into `$BUILD`, or into `./build` if
+the `BUILD` environment variable is not set.
 
 This repository includes a tiny web server which you can use to preview
 the generated files locally:
@@ -126,6 +126,16 @@ Please avoid using optional `head` content unless absolutely
 necessary. CSS rules introduced in this way can interfere with the
 default stylesheet and JavaScript, of course, comes with its own set of
 risks.
+
+You can customize the formatting process even further by creating a
+`Local.gmk` file; please see the `Makefile` for guidance.
+
+
+Output format
+-------------
+
+The output will contain a subtree map in the `_map` file, from which you
+can visit all the pages in the subtree.
 
 
 [Pandoc]: https://pandoc.org/
