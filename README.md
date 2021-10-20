@@ -105,7 +105,7 @@ The MathJax JavaScript display engine is loaded only when needed.
 
 ### Optional `head` content
 
-If a document `foo.md` requires a custom CSS stylesheet, or some
+If a Markdown document `foo.md` requires a custom CSS stylesheet, or some
 JavaScript code, then place that content in a sibling `foo.head` file,
 wrapped in a `head` element:
 
@@ -131,8 +131,20 @@ You can customize the formatting process even further by creating a
 `Local.gmk` file; please see the `Makefile` for guidance.
 
 
+### Additional source forms
+
+Files ending in `.html` are copied verbatim to the output directory,
+dropping the `.html` suffix.
+
+Files ending in `.jpg`, `.png`, or `.svg` are copied verbatim to the
+output directory, preserving their suffixes.
+
+
 Output format
 -------------
+
+Each Markdown or HTML source file, `foo/bar.md` or `foo/bar.html`,
+produces an output file `foo/bar`, without the suffix.
 
 The output will contain a subtree map in the `_map` file, from which you
 can visit all the pages in the subtree.
