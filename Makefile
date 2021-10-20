@@ -23,14 +23,14 @@
 # questions.
 #
 
-HOME = $(dir $(firstword $(MAKEFILE_LIST)))
+HOME = $(subst /,,$(dir $(lastword $(MAKEFILE_LIST))))
 
 SUBDIR ?=			# Optional subdirectory to include in Git URLs
 BUILD ?= build
 
 TS = $(shell git log --abbrev=12 --format=%h -1) $(shell date -Im)
-UPDATED = $(BUILD)/.updated
 
+UPDATED = $(BUILD)/.updated
 CSS = page-serif.css
 
 
@@ -54,8 +54,12 @@ $(BUILD)/%: %.md $(HOME)/header.xsl $(HOME)/page.xsl $(HOME)/generate.sh
 	HOME=$(HOME) bash $(HOME)/generate.sh $< $(SUBDIR) >$@ || (rm -f $@; exit 1)
 	$(updated)
 
+
+# Prerequisites for optional .head files
+
 $(foreach file,$(MD_SRC),$(eval $(patsubst %.md,$(BUILD)/%,$(file)): \
                                 $(wildcard $(basename $(file)).head)))
+
 
 # Just copy a file
 define copy-file
@@ -115,3 +119,9 @@ $(BUILD)/_map: $(HOME)/map.sh
 
 preview:
 	java $(HOME)/TinyWebServer.java $(BUILD) &
+
+
+# Cleanup
+
+clean:
+	rm -rf $(BUILD)
