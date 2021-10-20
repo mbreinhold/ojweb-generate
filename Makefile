@@ -32,7 +32,7 @@
 
 SHELL = /bin/bash		# So that we can `set -o pipefail`
 
-HOME = $(subst /,,$(dir $(firstword $(MAKEFILE_LIST))))
+HOME = $(patsubst %/,%,$(dir $(firstword $(MAKEFILE_LIST))))
 
 SUBDIR ?=			# Optional subdirectory to include in Git URLs
 BUILD ?= build
