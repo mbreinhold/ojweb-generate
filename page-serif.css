@@ -52,8 +52,7 @@ HTML { font-size: 24px; }       /* Grid */
 HTML > BODY { font-size: 16px; }
 BODY {
   background: white;
-  margin: auto;
-  margin-top: 0;
+  margin-top: -4px; margin-left: 4px; /* Grid tweaks */
   margin-bottom: calc(100vh - 8rem);
   /* 6.7vw = 48px = 2rem at 716px width */
   padding: clamp(1rem, 6.7vw, 2rem) clamp(.25rem, 6.7vw, 2rem);
@@ -69,8 +68,10 @@ BODY {
   color: #222;
 }
 
+/* BODY { background: url("grid-12.png") repeat 0 12px; } /**/
+
 FOOTER.legal { font-size: 12px; line-height: 16px; color: #888;
-               text-align: center; margin-top: 2rem; }
+               text-align: center; margin-top: 4rem; }
 FOOTER.legal A { color: #888; }
 
 H1, H2, H3, H4 { text-align: left; }
@@ -105,15 +106,12 @@ DD { margin-left: clamp(1rem, 6.7vw, 2rem); }
 
 H1, H2, H3, H4, DIV.subtitle, DIV.author, DIV.date { font-weight: bold; }
 
-/* Grid tweaks */
-H1:first-child { margin-top: 4px; }
-
-/* BODY { background: url("grid-12.png") repeat 0 12px; } /**/
-
-H1, DIV.subtitle { font-size: 20px; }
-H2 { font-size: 18px; }
+H1 { font-size: 20px; }
+H2, DIV.subtitle { font-size: 18px; }
 
 H1 { margin: 1rem 0 1rem; }
+H1:first-child { margin-top: 0; }
+
 H2 { margin: 1rem 0 .5rem; }
 
 H1 + DIV.author, H1 + DIV.date { margin-top: -.5rem; }
