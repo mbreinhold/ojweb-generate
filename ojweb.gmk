@@ -52,7 +52,7 @@ endef
 
 # Markdown
 
-MD_SRC = $(shell find * -type f -name '*.md')
+MD_SRC = $(shell find * -type f -name '*.md' | grep -v ojweb-generate/)
 MD_DST = $(patsubst %.md,$(BUILD)/%,$(MD_SRC))
 MAP += $(patsubst $(BUILD)/%, %, $(MD_DST))
 
