@@ -6,20 +6,26 @@ OpenJDK Web Page Generator
 The `Makefile` in this repository generates HTML files and other assets
 for a subtree of the `openjdk.java.net` web site.
 
-To use it to preview a local clone of a documentation repository, clone
-this repository into your local repository and then run its `Makefile`:
+The easiest way to preview a local documentation repository is to clone
+this repository into your local repository and create a simple `Makefile`
+in that repository:
 
-    $ cd <docs-repo>
-    $ git clone <URL>/ojweb-generate.git
-    $ make -f ojweb-generate/Makefile
+    all preview clean:
+            $(MAKE) -f ojweb-generate/Makefile $@
 
-The `Makefile` will write its output into `$BUILD`, or into `./build` if
-the `BUILD` environment variable is not set.
+    update:
+            git -C ojweb-generate pull --ff-only
+
+    .PHONY: all preview clean update
+
+Then running `make` in that repository will format the source files into
+the `./build` directory, or to `$BUILD` if the `BUILD` environment
+variable is set.
 
 This repository includes a tiny web server which you can use to preview
 the generated files locally:
 
-    $ make -f ojweb-generate/Makefile preview
+    $ make preview
 
 Then point your browser at `http://localhost:8081/`.
 
@@ -132,6 +138,9 @@ You can customize the formatting process even further by creating a
 
 
 ### Additional source forms
+
+A file named `_index.md` will produce the index file for the directory
+that contains it.
 
 Files ending in `.html` are copied verbatim to the output directory,
 dropping the `.html` suffix.
