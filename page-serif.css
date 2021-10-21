@@ -91,7 +91,9 @@ P.br { margin-top: .5rem; }
 /*LI { margin-right: clamp(.5rem, 3.35vw, 1rem); }*/
 LI LI { margin-right: 0; text-align: left; }
 
-UL, OL { margin: .5rem 0; padding-left: clamp(1rem, 6.7vw, 2rem); }
+UL, OL { margin: .5rem 0;
+         padding-left: clamp(1rem, 6.7vw, 2rem);
+         padding-right: clamp(.5rem, 3.35vw, 1rem); }
 LI UL, LI OL { margin: 0 0; }
 LI P:last-child { margin-bottom: .5rem; }
 
