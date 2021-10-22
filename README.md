@@ -152,6 +152,11 @@ produces an output file `foo/bar`, without the suffix.
 The output will contain a subtree map in the `_map` file, from which you
 can visit all the pages in the subtree.
 
+The footer of each generated HTML page contains the usual legal notices,
+a timestamp, and the hash of the most recent commit of the source file
+for that page.  The hash is a link to the history of the source file in
+the originating repository.
+
 
 [Pandoc]: https://pandoc.org/
 [pd-markdown]: https://pandoc.org/MANUAL.html#pandocs-markdown
