@@ -7,10 +7,10 @@ The `Makefile` in this repository generates HTML files and other assets
 for a subtree of the `openjdk.java.net` web site.
 
 The easiest way to preview a local documentation repository is to clone
-this repository into your local repository and then create a symbolic
-link to this repository’s `Makefile` in that repository:
+this repository into your local repository and then create a trivial
+`Makefile` in that repository:
 
-    $ ln -s ojweb-generate/Makefile .
+    $ echo 'include ojweb-generate/Makefile' >Makefile
 
 Then running `make` in your repository will format the source files into
 the `./build` directory, or to `$BUILD` if the `BUILD` environment
@@ -22,6 +22,12 @@ the generated files locally:
     $ make preview
 
 Then point your browser at `http://localhost:8081/`.
+
+Additional `make` targets include:
+
+  - `make update` — updates the local `ojweb-generate` repository
+  - `make clean` — removes the build
+  - `make help` — summarizes the `make` targets
 
 
 ### Tools required

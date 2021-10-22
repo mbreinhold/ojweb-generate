@@ -7,4 +7,11 @@ all preview clean:
 update:
 	git -C ojweb-generate pull --ff-only
 
-.PHONY: all preview clean update
+help:
+	@echo '  make            Same as "make all"'
+	@echo '  make all        Build all pages'
+	@echo '  make preview    Start a tiny web server to preview the build'
+	@echo '  make clean      Remove the build'
+	@echo '  make update     Update ./ojweb-generate'
+
+.PHONY: all preview clean update help
