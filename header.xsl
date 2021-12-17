@@ -117,6 +117,19 @@
   </s:copy>
 </s:template>
 
+<!-- While we're here, fix up figures to use their captions as image alt text
+     rather than captions
+  -->
+
+<s:template match="h:figure[h:img and h:figcaption]">
+  <figure>
+    <img>
+      <s:copy-of select="h:img/@*"/>
+      <s:attribute name="alt"><s:value-of select="h:figcaption"/></s:attribute>
+    </img>
+  </figure>
+</s:template>
+
 
 <!-- Main -->
 

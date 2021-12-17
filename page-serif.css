@@ -97,8 +97,11 @@ UL, OL { margin: .5rem 0;
 LI UL, LI OL { margin: 0 0; }
 LI P:last-child { margin-bottom: .5rem; }
 
-PRE, TABLE { padding: 0; margin: .5rem 0 .5rem clamp(1rem, 6.7vw, 2rem);
-             overflow: visible; }
+PRE, TABLE, FIGURE
+  { padding: 0; margin-left: clamp(1rem, 6.7vw, 2rem); margin-right: 0
+    overflow: visible; }
+PRE { margin-top: .5rem; margin-bottom: .5rem; }
+TABLE, FIGURE { margin-top: 1rem; margin-bottom: 1rem; }
 BLOCKQUOTE { margin: .5rem clamp(1rem, 6.7vw, 2rem); }
 LI BLOCKQUOTE { margin-left: 0; margin-right: 0; }
 UL LI { list-style-type: square; }
@@ -126,9 +129,9 @@ DIV.author + DIV.date { margin: -1rem 0 1rem; }
 H3, H4 { margin-top: .5rem; margin-bottom: .5rem; }
 H3 { font-style: italic; }
 
-H1, H2, DIV, BODY > P, BODY > UL, BODY > OL, IMG { margin-left: 0px; }
+H1, H2, DIV, BODY > P, BODY > UL, BODY > OL { margin-left: 0px; }
 
-TABLE TD, TABLE TH { padding-left: 1em; padding-top: .5em; }
+TABLE TD, TABLE TH { padding-left: 1em; padding-top: .5em; text-align: left; }
 TABLE TD:first-child, TABLE TH:first-child { padding-left: 0; }
 TABLE TH { padding-top: 0; }
 
