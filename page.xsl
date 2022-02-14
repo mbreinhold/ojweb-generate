@@ -187,7 +187,7 @@
                 <s:value-of select="$hash"/>
               </s:when>
               <s:otherwise>
-                <a href="{$remote}/commits/{$branch}/{$file}">
+                <a href="{$remote}/blob/{$hash}/{$file}">
                   <s:value-of select="$hash"/>
                 </a>
               </s:otherwise>
