@@ -94,16 +94,16 @@ LI LI { margin-right: 0; text-align: left; }
 UL, OL { margin: .5rem 0;
          padding-left: clamp(1rem, 6.7vw, 2rem);
          padding-right: clamp(.5rem, 3.35vw, 1rem); }
-LI UL, LI OL { margin: 0 0; }
+LI UL, LI OL { margin: .5rem 0; }
 LI P:last-child { margin-bottom: .5rem; }
 
 PRE, TABLE, FIGURE
   { padding: 0; margin-left: clamp(1rem, 6.7vw, 2rem); margin-right: 0
-    overflow: visible; }
+    overflow: visible; width: max-content; }
 PRE { margin-top: .5rem; margin-bottom: .5rem; }
 TABLE, FIGURE { margin-top: 1rem; margin-bottom: 1rem; }
 BLOCKQUOTE { margin: .5rem clamp(1rem, 6.7vw, 2rem); }
-LI BLOCKQUOTE { margin-left: 0; margin-right: 0; }
+/*LI BLOCKQUOTE { margin-left: 0; margin-right: 0; }*/
 UL LI { list-style-type: square; }
 
 DL { margin-top: .5rem; }
