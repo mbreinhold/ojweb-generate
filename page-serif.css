@@ -88,14 +88,15 @@ B, STRONG, TH { font-weight: bold; }
 
 P + P { text-indent: clamp(1rem, 6.7vw, 2rem); }
 P.br { margin-top: .5rem; }
-/*LI { margin-right: clamp(.5rem, 3.35vw, 1rem); }*/
+LI { margin-top: 0; margin-bottom: 0; }
 LI LI { margin-right: 0; text-align: left; }
 
 UL, OL { margin: .5rem 0;
          padding-left: clamp(1rem, 6.7vw, 2rem);
          padding-right: clamp(.5rem, 3.35vw, 1rem); }
-LI UL, LI OL { margin: .5rem 0; }
-LI P:last-child { margin-bottom: .5rem; }
+UL UL, UL OL, OL OL, OL UL { margin-top: 0; margin-bottom: 0; }
+LI > P:first-child { margin-top: .5rem; }
+LI > P:last-child { margin-bottom: .5rem; }
 
 PRE, TABLE, FIGURE
   { padding: 0; margin-left: clamp(1rem, 6.7vw, 2rem); margin-right: 0
