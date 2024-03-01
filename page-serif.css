@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021, 2024, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -87,7 +87,7 @@ I I, EM EM { font-style: normal; }
 B, STRONG, TH { font-weight: bold; }
 
 P + P { text-indent: clamp(1rem, 6.7vw, 2rem); }
-P.br { margin-top: .5rem; }
+P.br { text-indent: 0; margin-top: .5rem; }
 LI { margin-top: 0; margin-bottom: 0; }
 LI LI { margin-right: 0; text-align: left; }
 
