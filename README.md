@@ -32,16 +32,16 @@ Additional `make` targets include:
 
 ### Tools required
 
-You’ll need GNU Make, Git, Tidy, xsltproc, and [Pandoc] (version 2.5 or
-later), plus the usual core utilities.
+You’ll need GNU Make, Git, Tidy, xsltproc, [Pandoc] (version 2.5 or
+later), and Graphviz, plus the usual core utilities.
 
-To install these on a Debian-based system:
+To install these on a Debian-based Linux system:
 
-    $ apt-get install make git tidy xsltproc pandoc
+    $ apt-get install make git tidy xsltproc pandoc graphviz fonts-dejavu
 
 To install these on macOS using [Homebrew]:
 
-    $ brew install coreutils gnu-sed make git tidy-html5 pandoc
+    $ brew install coreutils gnu-sed make git tidy-html5 pandoc graphviz
     $ export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
     $ export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
     $ export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
@@ -139,8 +139,11 @@ You can customize the formatting process even further by creating a
 
 ### Additional source forms
 
-A file named `_index.md` will produce the index file for the directory
+A file named `_index.md` produces the `index.html` file for the directory
 that contains it.
+
+Files ending in `.dot` are processed by the [Graphviz] `dot` tool to
+produce corresponding `.svg` files in the output directory.
 
 Files ending in `.html` are copied verbatim to the output directory,
 dropping the `.html` suffix.
@@ -170,3 +173,4 @@ the originating repository.
 [pd-hd-attr]: https://pandoc.org/MANUAL.html#extension-header_attributes
 [Homebrew]: https://brew.sh
 [MathJax]: https://docs.mathjax.org/en/latest/index.html
+[Graphviz]: https://graphviz.org/doc/info/lang.html

@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2021, 2024, Oracle and/or its affiliates. All rights reserved.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
 # This code is free software; you can redistribute it and/or modify it
@@ -132,6 +132,26 @@ all:: $(HTML_DST)
 
 $(BUILD)/%: %.html
 	$(COPY_FILE)
+
+
+# Dot content
+
+DOT_SRC = $(shell find * -type f -name '*.dot')
+DOT_DST = $(patsubst %.dot,$(BUILD)/%.svg,$(DOT_SRC))
+MAP += $(patsubst $(BUILD)/%, %, $(DOT_DST))
+
+all:: $(DOT_DST)
+
+DOT_FONT = fontname='DejaVu Serif'
+DOT_FONTSZ = fontsize=12
+DOT_OPTS = -Tsvg -N$(DOT_FONT) -N$(DOT_FONTSZ) \
+                 -E$(DOT_FONT) -E$(DOT_FONTSZ) \
+		 -G$(DOT_FONT) -G$(DOT_FONTSZ)
+
+$(BUILD)/%.svg: %.dot
+	@mkdir -p $(dir $@)
+	dot $(DOT_OPTS) $< >$@
+	$(UPDATED)
 
 
 # Non-Markdown/HTML content
