@@ -176,10 +176,10 @@
           <s:text>&nl;</s:text>
           <div>&copy; <s:value-of select="$year"/> Oracle Corporation and/or its affiliates</div>
           <s:text>&nl;</s:text>
-          <div><a href="/tou">Terms of Use</a>
-          &dot; License: <a href="https://openjdk.java.net/legal/gplv2+ce.html">GPLv2</a>
+          <div><a href="/legal/tou">Terms of Use</a>
+          &dot; License: <a href="/legal/gplv2+ce.html">GPLv2</a>
           &dot; <a href="https://www.oracle.com/legal/privacy/index.html">Privacy</a>
-          &dot; <a href="https://openjdk.java.net/legal/openjdk-trademark-notice.html">Trademarks</a></div>
+          &dot; <a href="/legal/openjdk-trademark-notice.html">Trademarks</a></div>
           <s:text>&nl;</s:text>
           <div>
             <s:choose>

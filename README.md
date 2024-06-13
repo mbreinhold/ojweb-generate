@@ -4,7 +4,7 @@ OpenJDK Web Page Generator
 
 
 The `Makefile` in this repository generates HTML files and other assets
-for a subtree of the `openjdk.java.net` web site.
+for a subtree of the `openjdk.org` web site.
 
 The easiest way to preview a local documentation repository is to clone
 this repository into your local repository and then create a trivial
