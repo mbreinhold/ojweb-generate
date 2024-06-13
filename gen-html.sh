@@ -30,6 +30,7 @@ MATHJAX_URL=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js
 
 SRC=$1; shift
 SUBDIR=$1; shift
+COMMENTS_TO=$1; shift
 
 case $SUBDIR in
   .) SUBDIR=;;
@@ -67,6 +68,7 @@ xsltproc --nonet \
   --stringparam file "$SUBDIR$SRC" \
   --stringparam head "$HEAD" \
   --stringparam mathjax-url "$MATHJAX_URL" \
+  --stringparam comments-to "$COMMENTS_TO" \
   $PAGE_XSL - \
 | sed -re 's!<br></br>!<br>!' -e 's/ – /\&#x200A;—\&#x200A;/g'
 

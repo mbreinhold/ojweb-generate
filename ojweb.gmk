@@ -80,7 +80,7 @@ define HEADER
 endef
 
 define GENERATE
-HOME=$(HOME) bash $(HOME)/gen-html.sh $(1) $(SUBDIR)
+HOME=$(HOME) bash $(HOME)/gen-html.sh $(1) "$(SUBDIR)" "$(COMMENTS_TO)"
 endef
 
 # If you're creating a `Local.gmk` to customize Markdown processing then
@@ -168,6 +168,9 @@ $(BUILD)/%: %
 
 
 # Local definitions
+
+# Define COMMENTS_TO in this file as the e-mail address of the Project's
+# mailing list
 
 -include Local.gmk
 

@@ -174,6 +174,13 @@
         <s:text>&nl;</s:text>
         <footer class="legal">
           <s:text>&nl;</s:text>
+          <s:if test="$comments-to">
+            <div>Comments to:
+              <a href="https://mail.openjdk.org/mailman/listinfo/{$comments-to}">
+                <s:value-of select="$comments-to"/>@openjdk.org</a>
+            </div>
+          </s:if>
+          <s:text>&nl;</s:text>
           <div>&copy; <s:value-of select="$year"/> Oracle Corporation and/or its affiliates</div>
           <s:text>&nl;</s:text>
           <div><a href="/legal/tou">Terms of Use</a>

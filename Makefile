@@ -1,5 +1,8 @@
-# For convenience, create a symbolic link to this file
-# from the containing documentation repository
+# For convenience, create a symbolic link to this file from the containing
+# documentation repository, or else create a trivial Makefile:
+#
+#   $ echo 'include ojweb-generate/Makefile' >Makefile
+# 
 
 all preview clean:
 	$(MAKE) -f ojweb-generate/ojweb.gmk $@

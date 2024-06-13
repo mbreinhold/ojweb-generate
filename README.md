@@ -128,13 +128,12 @@ wrapped in a `head` element:
 The children of the `head` element in this file will be copied to the end
 of the `head` element in the generated HTML.
 
-Please avoid using optional `head` content unless absolutely
-necessary. CSS rules introduced in this way can interfere with the
-default stylesheet and JavaScript, of course, comes with its own set of
-risks.
+Please avoid using optional `head` content unless absolutely necessary.
+CSS rules introduced in this way can interfere with the default
+stylesheet and JavaScript, of course, comes with its own set of risks.
 
 You can customize the formatting process even further by creating a
-`Local.gmk` file; please see the `Makefile` for guidance.
+`Local.gmk` file; please see `ojweb.gmk` for guidance.
 
 
 ### Additional source forms
@@ -148,8 +147,8 @@ produce corresponding `.svg` files in the output directory.
 Files ending in `.html` are copied verbatim to the output directory,
 dropping the `.html` suffix.
 
-Files ending in `.jpg`, `.png`, or `.svg` are copied verbatim to the
-output directory, preserving their suffixes.
+Files ending in `.jpg`, `.png`, `.svg`, or `.pdf` are copied verbatim to
+the output directory, preserving their suffixes.
 
 
 Output format
