@@ -141,6 +141,10 @@
   <s:text>&nl;</s:text>
 </s:template>
 
+<s:template name="analytics">
+  <script src="https://cdn.usefathom.com/script.js" data-site="KCYJJPZX" defer="yes"></script>
+</s:template>
+
 <s:template match="/h:html">
   <html lang="en">
     <s:text>&nl;</s:text>
@@ -158,8 +162,11 @@
       <link rel="shortcut icon" href="/images/nanoduke.ico"/>
       <s:text>&nl;</s:text>
       <link rel="stylesheet" type="text/css" href="/page-serif.css"/>
+      <s:text>&nl;</s:text>
+      <s:call-template name="analytics"/>
       <s:if test="h:body//h:span[@class='math inline' or @class='math display']">
-        <script src="{$mathjax-url}"/>
+        <s:text>&nl;</s:text>
+        <script src="{$mathjax-url}"></script>
       </s:if>
       <s:if test="$head">
         <s:text>&nl;</s:text>
