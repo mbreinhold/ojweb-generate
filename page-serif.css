@@ -86,8 +86,7 @@ I, EM { font-style: italic; }
 I I, EM EM { font-style: normal; }
 B, STRONG, TH { font-weight: bold; }
 
-P + P { text-indent: clamp(1rem, 6.7vw, 2rem); }
-P.br { text-indent: 0; margin-top: .5rem; }
+P +  P, P.br { margin-top: .5rem; }
 LI { margin-top: 0; margin-bottom: 0; }
 LI LI { margin-right: 0; text-align: left; }
 
