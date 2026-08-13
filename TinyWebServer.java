@@ -79,6 +79,8 @@ public class TinyWebServer
             case "pdf" -> "application/pdf";
             case "png" -> "image/png";
             case "svg" -> "image/svg+xml";
+            case "woff" -> "font/woff";
+            case "woff2" -> "font/woff2";
             default ->
                 throw new IllegalArgumentException("Unknown file extension: "
                                                    + ext);
